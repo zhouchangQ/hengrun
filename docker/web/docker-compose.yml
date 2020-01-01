@@ -1,0 +1,29 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:mainline-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /data/docker/volumes/web/nginx/log:/app/nginx/logs
+      - ./volumes/nginx/conf.d:/etc/nginx/conf.d:ro
+      #- /etc/letsencrypt:/etc/letsencrypt:ro
+      #- /root/work/dhparam:/root/work/dhparam:ro
+
+  redis:
+    image: redis:5.0.7-alpine
+    volumes:
+    - /data/docker/volumes/web/redis/data:/data
+    - /data/docker/volumes/web/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  mysql:
+    image: mysql:8.0.18
+    ports:
+      - 3306:3306
+    volumes:
+      - /data/docker/volumes/web/mysql/data:/var/lib/mysql
+      - ./.init-passwd:/run/secrets/mysql-root
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql-root
