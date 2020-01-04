@@ -51,5 +51,5 @@ echo "exec ${docker_img_build_cmd}"
 ${docker_img_build_cmd}
 echo "exec ${docker_img_push_cmd}"
 ${docker_img_push_cmd}
-echo "exec ${docker_img_rm__cmd}"
+echo "exec ${docker_img_rm_cmd}"
 ${docker_img_rm_cmd}
