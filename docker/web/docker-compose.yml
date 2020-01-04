@@ -27,3 +27,63 @@ services:
       - ./.init-passwd:/run/secrets/mysql-root
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql-root
+
+  registry:
+    image: eulerproject/euler-cloud-registry:1.0.0-SNAPSHOT
+    volumes:
+    - /data/docker/volumes/web/registry/conf:/app/conf:ro
+    - /data/docker/volumes/web/registry/runtime:/app/runtime
+    ports:
+    - 28761:8761
+    environment:
+    - JAVA_OPTS=
+      -server
+      -Xms256m
+      -Xmx256m
+
+  gateway:
+    image: eulerproject/euler-cloud-gateway:1.0.0-SNAPSHOT
+    volumes:
+    - /data/docker/volumes/web/gateway/conf:/app/conf:ro
+    - /data/docker/volumes/web/gateway/runtime:/app/runtime
+    ports:
+    - 10000:8080
+    environment:
+    - JAVA_OPTS=
+      -server
+      -Xms256m
+      -Xmx256m
+
+  app-image:
+    image: eulerproject/euler-cloud-image:1.0.0-SNAPSHOT
+    volumes:
+    - /data/docker/volumes/web/app-image/conf:/app/conf:ro
+    - /data/docker/volumes/web/app-image/runtime:/app/runtime
+    ports:
+    - 10001:8080
+    links:
+    - mysql
+    - redis
+    environment:
+    - JAVA_OPTS=
+      -server
+      -Xms256m
+      -Xmx256m
+
+  app-uc:
+    image: eulerproject/user-center:1.0.0-SNAPSHOT
+    volumes:
+    - /data/docker/volumes/web/app-uc/conf:/usr/local/app/conf:ro
+    - /data/docker/volumes/web/app-uc/runtime:/user/local/app/runtime
+    - /data/docker/volumes/web/app-uc/log:/usr/local/tomcat/logs
+    ports:
+    - 20002:8080
+    links:
+    - mysql
+    - redis
+    environment:
+    - JAVA_OPTS=
+      -server
+      -Xms256m
+      -Xmx256m
+
