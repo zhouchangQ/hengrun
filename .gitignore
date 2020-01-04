@@ -1,1 +1,4 @@
 docker/web/.init-passwd
+server/.idea
+*.iml
+server/uc-plugin-hengrun/target
