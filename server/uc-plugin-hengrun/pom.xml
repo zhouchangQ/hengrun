@@ -38,6 +38,10 @@
         </dependency>
         <dependency>
             <groupId>org.eulerframework</groupId>
+            <artifactId>euler-web-authentication-impl-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eulerframework</groupId>
             <artifactId>euler-web-orm-jpa</artifactId>
         </dependency>
     </dependencies>
