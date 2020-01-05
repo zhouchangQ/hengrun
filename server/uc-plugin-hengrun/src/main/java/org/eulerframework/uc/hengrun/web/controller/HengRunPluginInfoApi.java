@@ -1,4 +1,4 @@
-package cn.sxhengrun.uc.web.controller;
+package org.eulerframework.uc.hengrun.web.controller;
 
 import org.eulerframework.web.core.annotation.ApiEndpoint;
 import org.eulerframework.web.core.base.controller.ApiSupportWebController;
@@ -11,7 +11,7 @@ public class HengRunPluginInfoApi extends ApiSupportWebController {
 
     @GetMapping
     public String helloWorld() {
-        return "Hengrun plugin enabled";
+        return "Heng Run plugin enabled";
     }
 
 }

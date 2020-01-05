@@ -13,6 +13,14 @@
     <artifactId>uc-plugin-hengrun</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -27,6 +35,10 @@
         <dependency>
             <groupId>org.eulerframework</groupId>
             <artifactId>euler-web-authentication</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eulerframework</groupId>
+            <artifactId>euler-web-orm-jpa</artifactId>
         </dependency>
     </dependencies>
 
