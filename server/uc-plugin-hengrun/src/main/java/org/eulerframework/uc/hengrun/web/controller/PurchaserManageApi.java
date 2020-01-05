@@ -13,6 +13,7 @@ import org.eulerframework.web.module.authentication.context.UserContext;
 import org.eulerframework.web.module.authentication.entity.EulerUserEntity;
 import org.eulerframework.web.module.authentication.entity.Group;
 import org.eulerframework.web.module.authentication.entity.User;
+import org.eulerframework.web.module.authentication.exception.UserNotFoundException;
 import org.eulerframework.web.module.authentication.principal.EulerUserDetails;
 import org.eulerframework.web.module.authentication.repository.GroupRepository;
 import org.eulerframework.web.module.authentication.repository.UserRepository;
@@ -80,8 +81,14 @@ public class PurchaserManageApi extends ApiSupportWebController {
         Assert.hasText(purchaserVO.getMobile(), "手机号必填");
         Assert.hasText(purchaserVO.getFullName(), "姓名必填");
 
-        EulerUserEntity eulerUserEntity = this.eulerUserEntityService.loadUserByMobile(purchaserVO.getMobile());
-        if(eulerUserEntity == null) {
+        EulerUserEntity eulerUserEntity = null;
+        try {
+            eulerUserEntity = this.eulerUserEntityService.loadUserByMobile(purchaserVO.getMobile());
+        } catch (UserNotFoundException e) {
+            //DO_NOTHING
+        }
+
+        if (eulerUserEntity == null) {
             String password = StringUtils.randomString(16);
             Map<String, Object> profile = new HashMap<>();
             profile.put("fullName", purchaserVO.getFullName());
@@ -99,7 +106,7 @@ public class PurchaserManageApi extends ApiSupportWebController {
     public void delPurchasers(@PathVariable String userId) {
         this.checkPermission();
         User currentUserEntity = this.userRepository.findUserById(userId);
-        if(currentUserEntity == null) {
+        if (currentUserEntity == null) {
             return;
         }
 
@@ -114,7 +121,7 @@ public class PurchaserManageApi extends ApiSupportWebController {
 
     private void checkPermission() {
         EulerUserDetails eulerUserDetails = UserContext.getCurrentUser();
-        if(Optional.ofNullable(eulerUserDetails.getAuthorities())
+        if (Optional.ofNullable(eulerUserDetails.getAuthorities())
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
