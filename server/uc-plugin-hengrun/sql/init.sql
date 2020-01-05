@@ -22,3 +22,15 @@ create table hengrun_user_profile
     default character set utf8mb4
     default collate utf8mb4_bin
     comment = '恒润用户档案表';
+
+# 插入恒润采购员权限组
+INSERT INTO sys_group (id, code, description, name)
+VALUES (uuid(), 'g_purchaser', '恒润采购员组', 'Purchasers');
+# 插入恒润采购员权限
+INSERT INTO sys_authority (authority, description, name)
+VALUES ('PURCHASER', '恒润采购员权限', 'Purchaser');
+# 插入恒润采购员权限组与恒润采购员权限的关系映射
+INSERT INTO sys_group_authority (group_id, authority)
+VALUES ((SELECT id
+         FROM sys_group
+         WHERE code = 'g_purchaser'), 'PURCHASER');
