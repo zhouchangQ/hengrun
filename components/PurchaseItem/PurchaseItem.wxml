@@ -1,0 +1,28 @@
+<view class="container item" wx:for="{{listData}}" wx:key='id' bindtap="ToDetail">
+  <view class="cover-box" wx:if="{{role==2&&item.type==2}}" catchtap="ToEnd">
+    <view class="cover"></view>
+    <view class="tip">此采购已结束</view>
+  </view>
+  <view class="top">
+    <view class="left">
+      <image src="/imgs/logo.png"></image>
+      <view>陕西恒润</view>
+    </view>
+    <view wx:if="{{item.type!=2}}" data-tel="{{13924658810}}" catchtap="HandleCallPhone">13924658810</view>
+    <image wx:if="{{role==1&&item.type==2}}" class="right" src="/imgs/ic_has_caigou.png"></image>
+  </view>
+  <view class="center">
+    <view class="title">优质豆王1吨</view>
+    <view class="info">临近春节，本公司采购优质豆王1吨，多多益善，有意者尽快报价，也可直接拨打上方联系电话</view>
+  </view>
+  <view class="foot" wx:if="{{role==2&&!showType}}" catchtap="ToAddBaojia">
+    <view class="green-btn-small" hover-class="btn-hover">我要报价</view>
+  </view>
+  <view class="foot" wx:if="{{role==1&&!showType}}">
+    <view class="gray-btn-small" hover-class="btn-hover" data-item="{{item}}" data-index="{{index}}" catchtap="HandleDelete">删除</view>
+    <view wx:if="{{item.type!=2}}" class="gray-btn-small" hover-class="btn-hover" data-item="{{item}}" data-index="{{index}}" catchtap="HandleEnd">结束采购</view>
+    <view class="green-btn-small" hover-class="btn-hover" catchtap="ToListBaojia">当前报价(10)</view>
+  </view>
+</view>
+<!-- 空提示 -->
+<empty listData="{{listData}}"></empty>

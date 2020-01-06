@@ -1,0 +1,12 @@
+<header title='当日采购' hideBg="{{hideBg}}"></header>
+<image class='top-bg' src="/imgs/bg_top.png" wx-if="{{hideBg}}"></image>
+<movable-area>
+  <purchase-item listData="{{listData}}"></purchase-item>
+  <!-- 添加按钮 -->
+  <movable-view x="{{x}}" y="{{y}}" direction="all" wx:if="{{role==1}}">
+    <view class="fix-btn" hover-class="item-hover" catchtap="ToAdd">
+      <image src="/imgs/btn_add.png"></image>
+      <view class="btn">添加采购</view>
+    </view>
+  </movable-view>
+</movable-area>

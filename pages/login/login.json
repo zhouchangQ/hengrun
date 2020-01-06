@@ -1,0 +1,7 @@
+{
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance": 50,
+    "navigationStyle": "custom",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "white"
+}

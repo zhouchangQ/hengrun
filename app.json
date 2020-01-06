@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/purchase/index",
+    "pages/mine/index",
+    "pages/sale/index",
+    "pages/alertDetail/index",
+    "pages/purchase/addBaoJia/index",
+    "pages/mine/alert/index",
+    "pages/comen/add/index",
+    "pages/purchase/detail/index",
+    "pages/purchase/baojia/index",
+    "pages/comen/saleAndBjDetail/index",
+    "pages/mine/info/index",
+    "pages/mine/supplier/index",
+    "pages/mine/account/add/index",
+    "pages/mine/account/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "tabBar": {
+    "color": "#979797",
+    "selectedColor": "#49C966",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/purchase/index",
+        "text": "当日采购",
+        "iconPath": "imgs/tab_1.png",
+        "selectedIconPath": "imgs/tab_1_select.png"
+      },
+      {
+        "pagePath": "pages/sale/index",
+        "text": "当日甩卖",
+        "iconPath": "imgs/tab_2.png",
+        "selectedIconPath": "imgs/tab_2_select.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "imgs/tab_3.png",
+        "selectedIconPath": "imgs/tab_3_select.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

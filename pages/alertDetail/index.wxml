@@ -1,0 +1,4 @@
+<view class="container">
+  <view class="text">祝贺恒润公司成功采购大蒜10吨，更多采购火热进行中</view>
+  <image src="{{item}}" mode="widthFix" wx:for="{{imgList}}" wx:key='id'></image>
+</view>

@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "header": "/components/Header/Header",
+    "bj-item": "/components/BjItem/BjItem",
+    "move-btn": "/components/MoveBtn/MoveBtn"
+  },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#333",
+  "navigationBarTextStyle": "black"
+}

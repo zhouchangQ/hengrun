@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "purchase-item": "/components/PurchaseItem/PurchaseItem"
+  },
+  "navigationBarTitleText": "我要报价"
+}

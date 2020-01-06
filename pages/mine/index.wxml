@@ -1,0 +1,58 @@
+<header title='我的'></header>
+<image class="bg" src="/imgs/bg_mine.png"></image>
+<view class="top">
+  <image class="header" src="{{userInfo.avatarUrl?userInfo.avatarUrl:'/imgs/ic_header.png'}}"></image>
+  <view class="info">
+    <view class="name">{{userInfo.nickName?userInfo.nickName:"未登录"}}</view>
+    <view class="ps" wx:if="{{userInfo}}">
+      <view class="tel">13024658810</view>
+      <view class="conm">陕西恒润</view>
+    </view>
+    <view class="ps" wx:if="{{!userInfo}}">
+      <view class="conm" bindtap="HandleJump" data-url="/pages/mine/info/index">点击登陆账号</view>
+    </view>
+  </view>
+</view>
+<view class="item-box">
+  <view class="item" hover-class="item-hover">
+    <button class="auth" data-url="/pages/mine/info/index" open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button>
+    <view>个人信息</view>
+    <view class="right">
+      <view>待完善</view>
+      <image src="/imgs/ic_row.png" />
+    </view>
+  </view>
+  <view class="item" hover-class="item-hover" wx:if="{{role==1}}">
+    <button class="auth" data-url="/pages/mine/account/index" open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button>
+    <view>账号管理</view>
+    <view class="right">
+      <image src="/imgs/ic_row.png" />
+    </view>
+  </view>
+  <view class="item" hover-class="item-hover" wx:if="{{role==1}}">
+    <button class="auth" data-url="/pages/mine/supplier/index" open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button>
+    <view>供应商</view>
+    <view class="right">
+      <image src="/imgs/ic_row.png" />
+    </view>
+  </view>
+  <view class="item" hover-class="item-hover" wx:if="{{role==1}}">
+    <button class="auth" data-url="/pages/mine/alert/index" open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button>
+    <view>首页弹窗设置</view>
+    <view class="right">
+      <image src="/imgs/ic_row.png" />
+    </view>
+  </view>
+  <view class="item" hover-class="item-hover" bindtap="HandleOpenOrCloseChoose">
+    <view>选择角色</view>
+    <view class="right">
+      <view>{{roleName}}</view>
+      <image src="/imgs/ic_row.png" />
+    </view>
+    <view class="choose-box {{isOpenChoose?'open':''}}">
+      <view class="choose-item" wx:for="{{userRole}}" wx:key="id" data-item='{{item}}' catchtap="HandleChooseItem">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+</view>

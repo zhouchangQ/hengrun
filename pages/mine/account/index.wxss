@@ -1,0 +1,46 @@
+.item{
+  display: flex;
+  justify-content: space-between;
+  padding: 40rpx 30rpx;
+  font-size: 30rpx;
+  line-height: 60rpx;
+}
+.item .info{
+  color: #333;
+  font-weight: bold
+}
+.item .info .name{
+  margin-right: 40rpx
+}
+.item .btn{
+  color: #666;
+  width: 140rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border: 2rpx solid #666;
+  border-radius: 30rpx;
+}
+/* 添加账号样式 */
+.item2{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  height: 140rpx;
+  line-height: 140rpx;
+  font-size: 34rpx;
+}
+.left{
+  display: flex;
+}
+.left image{
+  min-height: 88rpx;
+  max-height: 88rpx;
+  min-width: 88rpx;
+  max-width: 88rpx;
+  margin-top: 26rpx;
+  margin-right: 32rpx;
+}
+.row{
+  margin-top: 60rpx
+}

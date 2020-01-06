@@ -1,0 +1,14 @@
+<view class="item container" wx:for="{{listData}}" wx:key='id'>
+  <view class="info">
+    <text class="name">王博</text>
+    <text>13924658810</text>
+  </view>
+  <view class="btn" hover-class="item-hover" data-item="{{item}}" data-index="{{index}}" catchtap="HandleDelete">删除</view>
+</view>
+<view class="item2 container" hover-class="item-hover"  bindtap="HandleJump">
+  <view class="left">
+    <image src="/imgs/btn_add.png"></image>
+    <view>添加账号</view>
+  </view>
+  <image class="row" src="/imgs/ic_row.png"></image>
+</view>

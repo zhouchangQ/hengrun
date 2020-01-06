@@ -1,0 +1,80 @@
+page {
+  background-color: #fcfefc;
+}
+
+.top {
+  position: relative;
+  height: 48vh;
+}
+
+.top .bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.top .content {
+  position: relative;
+  text-align: center;
+}
+
+.top .content .logo {
+  margin-top: 16vh;
+  width: 340rpx;
+  height: 132rpx;
+}
+.top .content view{
+  color: #fff;
+  font-size: 30rpx;
+  margin-top: 20rpx;
+}
+.body{
+}
+.body .item{
+  position: relative;
+  margin-top: 110rpx;
+  display: flex;
+  border-bottom: 2rpx solid #40CE64;
+  height: 70rpx;
+  line-height: 70rpx;
+  width: 70vw;
+  margin-left: 15vw;
+}
+.body .item image{
+  width: 28rpx;
+  height: 32rpx;
+  margin-top: 10rpx;
+  margin-right: 30rpx;
+  margin-left: 18rpx;
+}
+
+
+
+.body  .item .btn-code {
+  position: absolute;
+  z-index: 5;
+  top: 0rpx;
+  right: 20rpx;
+  height: 50rpx;
+  line-height: 46rpx;
+  padding: 0 20rpx;
+  background-color: white;
+  color: #40CE64;
+  border: 2rpx solid #40CE64;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+}
+.body .btn-code.noClick{
+  border: 2rpx solid #cacaca;
+  color: #cacaca;
+}
+.green-btn{
+  width: 70vw !important;
+  margin-top: 100rpx !important;
+}
+.noclick{
+  background-color: rgb(151, 241, 174) !important;
+  color: #fff !important;
+}

@@ -1,0 +1,4 @@
+<view class='page-temp' wx-if="{{!listData||!listData.length}}">
+  <image mode='aspectFit' src="/imgs/bg_empty.png"></image>
+  <view>暂无内容哦...</view> 
+</view>

@@ -1,0 +1,12 @@
+<header title='当日甩卖' hideBg="{{hideBg}}"></header>
+<image class='top-bg' src="/imgs/bg_top.png" wx-if="{{hideBg}}"></image>
+<movable-area>
+<bj-item listData="{{listData}}" mType='1'></bj-item>
+    <!-- 添加按钮 -->
+  <movable-view x="{{x}}" y="{{y}}" direction="all" wx:if="{{role==2}}">
+    <view class="fix-btn" hover-class="item-hover" bindtap="ToAdd">
+      <image src="/imgs/btn_add.png"></image>
+      <view class="btn">添加甩卖</view>
+    </view>
+  </movable-view>
+</movable-area>

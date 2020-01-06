@@ -1,0 +1,12 @@
+image{
+  width: 100%;
+  display: block;
+}
+.text{
+  font-size: 30rpx;
+  color: #333;
+  font-weight: bold;
+}
+.container{
+  padding:  30rpx;
+}

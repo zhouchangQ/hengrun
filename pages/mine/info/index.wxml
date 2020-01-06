@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="form-item">
+    <view class="name"> <text>*</text> 姓名</view>
+    <input placeholder="请输入名称"></input>
+  </view>
+  <view class="form-item">
+    <view class="name"><text>*</text>手机</view>
+    <input placeholder="请输入手机号"></input>
+  </view>
+  <view class="form-item">
+    <view class="name"><text>*</text>货位</view>
+    <input placeholder="请输入货位"></input>
+  </view>
+  <view class="form-item">
+    <view class="name"><text>*</text>产品范围</view>
+    <input placeholder="请选择产品范围" disabled="true" bindtap="HandleOpenOrCloseChoose" value="{{formData.business}}"></input>
+    <view class="choose-box {{isOpenChoose?'open':''}}">
+      <view class="choose-item" wx:for="{{chooseList}}" wx:key="id"  data-item='{{item}}' bindtap="HandleChooseItem">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+  <view class="form-item">
+    <view class="name"><text></text>公司名称</view>
+    <input placeholder="请输入公司名称"></input>
+  </view>
+</view>
+
+<button class="green-btn" bindtap="HandleSave" hover-class="btn-hover">保存</button>

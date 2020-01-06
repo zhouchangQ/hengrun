@@ -1,0 +1,29 @@
+/* 选择弹窗样式 */
+
+.choose-box {
+  position: absolute;
+  overflow: hidden;
+  height: 0;
+  transition: all 0.3s;
+  z-index: 9;
+  left: 180rpx;
+  top: 80rpx;
+  width: 400rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 4rpx 6rpx 20rpx rgba(0, 0, 0, 0.3);
+}
+
+.open {
+  height: 264rpx;
+}
+
+.choose-box .choose-item {
+  padding: 15rpx 30rpx;
+  line-height: 60rpx;
+  border-bottom: 2rpx solid #efeff4;
+}
+
+.green-btn {
+  margin-top: 300rpx !important;
+}

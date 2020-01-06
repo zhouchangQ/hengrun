@@ -1,0 +1,33 @@
+.custom_nav{
+  position: relative;
+  z-index: 999;
+}
+.header{
+  position: fixed;
+  opacity: 1;
+  transition: all .3s;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  color: #fff;
+  text-align: center;
+  background-color: #fff;
+}
+.hide-bg{
+  opacity: 0;
+}
+.header-title{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  color: #fff;
+  text-align: center;
+}
+.m-black{
+  color: #333;
+}
+.bg{
+  background-color: #fff;
+  color: #666
+}

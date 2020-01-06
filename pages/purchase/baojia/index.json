@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "bj-item": "/components/BjItem/BjItem"
+  },
+  "navigationBarTitleText": "今日报价",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50
+}

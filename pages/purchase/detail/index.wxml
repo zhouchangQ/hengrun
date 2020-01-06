@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="title">需求</view>
+  <view class="info">
+    <view class="type-box">
+      <image src="/imgs/bg_type.png"></image>
+      <view>蔬菜</view>
+    </view>
+    <view>优质豆王</view>
+  </view>
+</view>
+<view class="container" data-tel="{{13924658810}}" catchtap="HandleCallPhone">
+  <view class="title">联系电话</view>
+  <view class="info">13924658810</view>
+</view>
+<view class="container">
+  <view class="title">详细内容</view>
+  <view class="info">最新需求大量生鲜水果蔬菜，多多益善，量大从优，欢迎广大朋友积极报价</view>
+</view>
+<view class="container">
+  <view class="title">相关图片</view>
+  <view class="img-box">
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+  </view>
+</view>

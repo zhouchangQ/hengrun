@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="form-item">
+    <view class="name"> <text>*</text> 姓名</view>
+    <input placeholder="请输入名称"></input>
+  </view>
+  <view class="form-item">
+    <view class="name"><text>*</text>手机</view>
+    <input placeholder="请输入手机号"></input>
+  </view>
+</view>
+
+<button class="green-btn" bindtap="HandleSave" hover-class="btn-hover">保存</button>

@@ -1,0 +1,18 @@
+/* components/loading/loading.wxss */
+
+.mbg {
+  position: fixed;
+  z-index: 99;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  text-align: center;
+  background-color: #40CE64;
+}
+
+.m-loading {
+  height: 140rpx;
+  width: 140rpx;
+  margin-top: 40vh;
+}

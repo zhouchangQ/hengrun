@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="form-item">
+    <view class="name">
+      <text></text> 是否开启</view>
+    <van-switch checked="{{ checked }}" active-color="#40CE64" bind:change="OnChange" size="20px" />
+  </view>
+  <view class="form-item">
+    <view class="name">
+      <text>*</text> 标题</view>
+    <input placeholder="请输入弹窗标题"></input>
+  </view>
+  <view class="form-item form-item2">
+    <view class="name">
+      <text></text> 内容</view>
+    <textarea auto-height placeholder="请输入详细信息，不超过1000字"></textarea>
+  </view>
+  <view class="form-item form-item2">
+    <view class="name">
+      <text></text> 内容图片</view>
+    <view class='img-box'>
+      <image mode='aspectFill' wx:for='{{imgList}}' wx:key='item' class='img-box-item' data-src='{{item}}' src='{{item}}' bindtap='PreviewImg'>
+        <view class='delete-box'>
+        </view>
+        <image class='delete-img' src='/imgs/ic_delete.png' data-index='{{index}}' catchtap='DeleteImg'></image>
+      </image>
+      <image class='img-box-item' bindtap='ChooseImg' mode='widthFix' src='/imgs/btn_add_photo.png'></image>
+    </view>
+  </view>
+</view>
+
+<button class="green-btn" bindtap="HandleSave" hover-class="btn-hover">保存</button>

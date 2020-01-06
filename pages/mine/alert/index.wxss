@@ -1,0 +1,55 @@
+.form-item2{
+  height: auto;
+  line-height: 40rpx;
+}
+.img-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 40rpx;
+}
+
+.img-box-item {
+  position: relative;
+  margin-top: 4vw;
+  width: 18vw;
+  height: 18vw;
+  border-radius: 20rpx;
+  margin-left: 10rpx;
+  background-color: #fff;
+  text-align: center;
+}
+
+
+.img-add {
+  width: 8vw;
+  height: 8vw;
+  margin-left: 0vw;
+  margin-top: 9vw;
+}
+
+.delete-img {
+  position: absolute;
+  width: 26rpx;
+  height: 26rpx;
+  top: 8rpx;
+  right: 8rpx;
+}
+
+.delete-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-right: 46rpx solid rgba(0, 0, 0, 0.4);
+  border-bottom: 46rpx solid transparent;
+  border-top-right-radius: 20rpx;
+  border-bottom-left-radius: 20rpx;
+}
+
+van-switch{
+  margin-top: 12rpx;
+  margin-left: -40rpx
+}

@@ -1,0 +1,26 @@
+<view class="item" wx:for="{{listData}}" wx:key='id' hover-class="item-hover" bindtap="HandleToDetail">
+  <view class="item-title" wx-if="{{mType==1}}">小香瓜</view>
+  <view class="item-content">
+    <view class="in">
+      <image class="icon" src="/imgs/ic_compny.png"></image>
+      <view>山东浓香农业</view>
+      <view class="type-box">
+        <image src="/imgs/bg_type.png"></image>
+        <view>蔬菜</view>
+      </view>
+    </view>
+    <view class="in" data-tel="{{13924658810}}" catchtap="HandleCallPhone">
+      <image class="icon" src="/imgs/ic_tel.png"></image>
+      <view>13924658810</view>
+    </view>
+  </view>
+  <view class="item-foot">
+    新到的小香瓜50吨，可便宜啦，预购从速哦～好吃 又甜这里最多显示两行又甜这里最多显示两行又甜这里最多显示两行又甜这里最多显示两行
+  </view>
+  <view class="foot" wx:if="{{role==2}}">
+    <view class="gray-btn-small" hover-class="item-hover" data-item="{{item}}" data-index="{{index}}" catchtap="HandleDelete">删除</view>
+  </view>
+</view>
+<view class="line-15"></view>
+<!-- 空提示 -->
+<empty listData="{{listData}}"></empty>

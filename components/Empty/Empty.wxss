@@ -1,0 +1,13 @@
+.page-temp{
+    position: fixed;
+    width: 100vw;
+    text-align: center;
+    margin-top: 30vh;
+    font-size: 30rpx;
+    color: #999
+}
+image{
+    /* height: 160rpx; */
+    width: 37.5vw;
+    height: 30vw;
+}

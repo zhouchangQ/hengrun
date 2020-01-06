@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="title">供应商</view>
+  <view class="info">山东农祥农业</view>
+</view>
+<view class="container"   data-tel="{{13924658810}}" catchtap="HandleCallPhone">
+  <view class="title">联系电话</view>
+  <view class="info">13924658810</view>
+</view>
+<view class="container">
+  <view class="title">详细内容</view>
+  <view class="info">我们公司便宜,还可以打七折,我们公司便宜,还可以打七折,我们公司便宜还可以打七折</view>
+</view>
+<view class="container">
+  <view class="title">相关图片</view>
+  <view class="img-box">
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+    <image data-src='{{src}}' src='{{src}}' bindtap='PreviewImg'></image>
+  </view>
+</view>

@@ -1,0 +1,20 @@
+<view class="top">
+  <image class='bg' src="/imgs/bg_login_bg.png"></image>
+  <view class="content">
+    <image class='logo' src="/imgs/bg_logo.png"></image>
+    <view>专业生鲜食材采购配送供应商</view>
+  </view>
+</view>
+<view class="body">
+  <view class="item">
+    <image src="/imgs/ic_logo_tel.png"></image>
+    <input type="number" placeholder="请输入手机号"  confirm-type="done" maxlength='11' data-tag='1' bindinput='getFormData'></input>
+  </view>
+  <view class="item">
+    <image src="/imgs/ic_logo_code.png"></image>
+    <input type='number' placeholder="请输入验证码"  maxlength='8' data-tag='2' bindinput='getFormData'></input>
+    <view disabled='{{!canGetCode}}' class='btn-code {{!canGetCode?"noClick":""}}' catchtap='getCode'>{{codeMsg}}</view>
+  </view>
+</view>
+<!-- <button class="green-btn {{(tel&&tel.length==11&&code)?'':'noclick'}}" disabled='{{!(tel&&tel.length==11&&code)}}'  bindtap="toLogin" hover-class="btn-hover">登陆 / 注册</button> -->
+<button class="green-btn {{(tel&&tel.length==11&&code)?'':'noclick'}}"  bindtap="toLogin" hover-class="btn-hover">登陆 / 注册</button>

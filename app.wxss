@@ -1,0 +1,195 @@
+/**app.wxss**/
+.container {
+  background-color: #fff;
+  padding: 0 30rpx;
+  margin: 30rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 6rpx 6rpx rgba(241, 241, 241, .5);
+}
+ /* 设置高斯模糊 */
+.blur{
+	filter: blur(20px);
+}
+page {background-color: #F7F7F7;}
+.f8 {font-size: 16rpx;}
+.f12 {font-size: 24rpx;}
+.f13 {font-size: 26rpx;}
+.f14 {font-size: 28rpx;}
+.f15 {font-size: 30rpx;}
+.f16 {font-size: 32rpx;}
+.f18 {font-size: 36rpx;}
+.bold{font-weight: 700}
+.c-green {color: #40CE64;}
+.c-blue {color: #6A69FF;}
+.c-yellow {color: #F8B551;}
+.c-red {color: #FF5C5D;}
+.color9 {color: #999;}
+.color3 {color: #333;}
+.color6 {color: #666;}
+button::after { border: 0;}
+.line-15{height: 30rpx}
+.item-hover{
+  background-color: #efeff4 !important;
+}
+.btn-hover{
+  background-color: rgb(131, 241, 158) !important;
+}
+.green-btn{
+  width: 80% !important;
+  font-size: 30rpx;
+  padding: 0;
+  border-radius: 50rpx;
+  margin-left: 10%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background-color: #40CE64;
+  color: #fff;
+  box-shadow: 0 8rpx 8rpx rgba(64,206,100, .5)
+}
+.green-btn-small{
+  font-size: 30rpx;
+  padding: 0 30rpx;
+  border-radius: 30rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: #40CE64;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 8rpx 8rpx rgba(64,206,100, .5);
+}
+.gray-btn-small{
+  font-size: 30rpx;
+  padding: 0 30rpx;
+  margin-right: 30rpx;
+  border-radius: 30rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border: 2rpx solid #40CE64;
+  color: #40CE64;
+  text-align: center;
+}
+.row{
+   height: 24rpx;
+  width: 12rpx;
+}
+/* 表单样式 */
+.form-item {
+  position: relative;
+  display: flex;
+  font-size: 30rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+.form-item input{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+.form-item text{
+  display: block;
+  min-width: 16rpx;
+}
+.form-item textarea{
+  width: 100%;
+  margin-top: 34rpx;
+}
+.form-item text {
+  color: #ff6054;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-item .name {
+  color: #666;
+  width: 200rpx;
+  display: flex;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+/* 标签样式 */
+.type-box{
+  position: relative;
+  width: 76rpx;
+  height: 34rpx;
+  margin: 0 10rpx;
+  line-height: 34rpx;
+}
+.type-box image{
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  height: 34rpx;
+  width: 76rpx;
+}
+.type-box view{
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  font-size: 24rpx;
+  left: 14rpx;
+}
+/* 浮动按钮样式 */
+movable-area{
+  z-index: 910;
+  height: 100vh;
+  width: 100vw;
+}
+movable-area .fix-btn{
+  width: 250rpx;
+  font-size: 30rpx;
+  border-radius: 50rpx;
+  background-color: #fff;
+  font-weight: bold;
+  height: 100rpx;
+  white-space:nowrap;
+    box-shadow: 6rpx 6rpx 6rpx rgba(0, 0, 0, .3);
+}
+movable-area movable-view image{
+  height: 72rpx;
+  width: 72rpx;
+  margin-top: 20rpx;
+  margin-right: 12rpx;
+  margin-left: 12rpx;
+}
+movable-view .btn{
+  line-height: 100rpx;
+  display: inline-block;
+  vertical-align: top;
+}
+movable-view{
+  position: fixed;
+  z-index: 4;
+}
+
+/* 选择弹窗样式 */
+
+.choose-box {
+  position: absolute;
+  overflow: hidden;
+  height: 0;
+  transition: all 0.3s;
+  z-index: 9;
+  left: 180rpx;
+  top: 80rpx;
+  width: 400rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 4rpx 6rpx 20rpx rgba(0, 0, 0, 0.3);
+}
+
+.open {
+  height: 264rpx;
+}
+
+.choose-box .choose-item {
+  padding: 15rpx 30rpx;
+  line-height: 60rpx;
+  border-bottom: 2rpx solid #efeff4;
+}
+
+.green-btn {
+  margin-top: 50rpx !important;
+}

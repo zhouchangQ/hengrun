@@ -1,0 +1,52 @@
+
+/* 列表样式 */
+
+.item {
+  position: relative;
+  z-index: 1;
+  padding: 30rpx;
+  color: #303133;
+}
+
+.item .top {
+  display: flex;
+  font-size: 30rpx;
+  justify-content: space-between;
+  font-weight: bold;
+  line-height: 50rpx;
+}
+.item .top .left{
+   display: flex;
+}
+.item .top .left image {
+  height: 50rpx;
+  width: 50rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.item .top .right{
+  height: 64rpx;
+  width: 154rpx;
+  margin-right: -44rpx;
+}
+.item .center .title{
+  font-weight: bold;
+  font-size: 30rpx;
+  line-height: 80rpx;
+}
+.item .center .info{
+  font-size: 28rpx;
+}
+.item .foot{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30rpx;
+}
+.cover-box{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height:100%;
+  width: 100%;
+  overflow: hidden;
+}

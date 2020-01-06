@@ -1,0 +1,102 @@
+<van-tabs active="{{ active }}" color="#40CE64">
+  <van-tab title="全部">
+    <view class="container item" wx:for="{{listData}}" wx:key='id'>
+      <view class="item-title">小香瓜</view>
+      <view class="item-content">
+        <view class="in">
+          <image src="/imgs/ic_compny.png"></image>
+          <view>山东浓香农业</view>
+        </view>
+      </view>
+      <view class="item-foot">
+        <view class="foot-item" data-tel="{{13924658810}}" catchtap="HandleCallPhone">
+          <text>手机</text>
+          <text>13924658810</text>
+        </view>
+        <view class="foot-item">
+          <text>货位</text>
+          <text>2-100</text>
+        </view>
+        <view class="foot-item">
+          <text>产品范围</text>
+          <text>水果</text>
+        </view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="水果">
+    <view class="container item" wx:for="{{listData}}" wx:key='id'>
+      <view class="item-title">小香瓜</view>
+      <view class="item-content">
+        <view class="in">
+          <image src="/imgs/ic_compny.png"></image>
+          <view>山东浓香农业</view>
+        </view>
+      </view>
+      <view class="item-foot">
+        <view class="foot-item">
+          <text>手机</text>
+          <text>13924658810</text>
+        </view>
+        <view class="foot-item">
+          <text>货位</text>
+          <text>2-100</text>
+        </view>
+        <view class="foot-item">
+          <text>产品范围</text>
+          <text>水果</text>
+        </view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="蔬菜">
+    <view class="container item" wx:for="{{listData}}" wx:key='id'>
+      <view class="item-title">小香瓜</view>
+      <view class="item-content">
+        <view class="in">
+          <image src="/imgs/ic_compny.png"></image>
+          <view>山东浓香农业</view>
+        </view>
+      </view>
+      <view class="item-foot">
+        <view class="foot-item">
+          <text>手机</text>
+          <text>13924658810</text>
+        </view>
+        <view class="foot-item">
+          <text>货位</text>
+          <text>2-100</text>
+        </view>
+        <view class="foot-item">
+          <text>产品范围</text>
+          <text>水果</text>
+        </view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="生鲜">
+    <view class="container item" wx:for="{{listData}}" wx:key='id'>
+      <view class="item-title">小香瓜</view>
+      <view class="item-content">
+        <view class="in">
+          <image src="/imgs/ic_compny.png"></image>
+          <view>山东浓香农业</view>
+        </view>
+      </view>
+      <view class="item-foot">
+        <view class="foot-item">
+          <text>手机</text>
+          <text>13924658810</text>
+        </view>
+        <view class="foot-item">
+          <text>货位</text>
+          <text>2-100</text>
+        </view>
+        <view class="foot-item">
+          <text>产品范围</text>
+          <text>水果</text>
+        </view>
+      </view>
+    </view>
+  </van-tab>
+</van-tabs>

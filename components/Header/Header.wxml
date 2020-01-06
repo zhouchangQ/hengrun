@@ -1,0 +1,4 @@
+<view class="custom_nav" style="height:{{navbarHeight}}px;">
+  <view class="header {{hideBg?'hide-bg':''}}" style="height:{{navbarHeight}}px;line-height:{{navbarHeight+statusBarHeight}}px"></view>
+  <view class="header-title {{hideBg?'':'m-black'}}" style="height:{{navbarHeight}}px;line-height:{{navbarHeight+statusBarHeight}}px">{{title}}</view>
+</view>

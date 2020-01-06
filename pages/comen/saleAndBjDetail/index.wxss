@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  padding: 30rpx;
+  font-size: 30rpx;
+  justify-content: space-between;
+}
+
+.container .title {
+  color: #666;
+  min-width: 150rpx;
+}
+
+.container .info {
+  color: #333;
+  font-weight: bold;
+}
+
+.img-box {
+  position: relative;
+  width: 100vw;
+}
+
+.img-box image {
+  width: 18vw;
+  height: 18vw;
+  margin-right: 2vw;
+}
