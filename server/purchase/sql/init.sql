@@ -41,7 +41,7 @@ create table purchase_album
         comment '主键id',
     purchase_id bigint unsigned not null
         comment '采购信息id',
-    url         varchar(255)    not null
+    image_id    varchar(36)     not null
         comment '图片URL',
     order_index int unsigned    not null
         comment '顺序',
@@ -60,21 +60,23 @@ create table purchase_album
 
 create table quote
 (
-    id        bigint unsigned not null auto_increment
+    id          bigint unsigned not null auto_increment
         comment '主键id',
-    tel       varchar(20)     not null
+    purchase_id bigint unsigned not null
+        comment '采购信息id',
+    tel         varchar(20)     not null
         comment '联系方式',
-    details   varchar(1000)   not null
+    details     varchar(1000)   not null
         comment '详情',
-    quote_at  datetime(3)     not null
+    quote_at    datetime(3)     not null
         comment '报价时刻',
-    quote_by  varchar(255)    not null
+    quote_by    varchar(255)    not null
         comment '报价用户id',
-    create_at datetime(3)     not null
+    create_at   datetime(3)     not null
         comment '数据插入时间',
-    modify_at datetime(3)     not null
+    modify_at   datetime(3)     not null
         comment '最后修改时间',
-    deleted   bool            not null
+    deleted     bool            not null
         comment '删除标记',
     primary key (id)
 )
@@ -89,7 +91,7 @@ create table quote_album
         comment '主键id',
     quote_id    bigint unsigned not null
         comment '报价信息id',
-    url         varchar(255)    not null
+    image_id    varchar(36)     not null
         comment '图片URL',
     order_index int unsigned    not null
         comment '顺序',
@@ -141,7 +143,7 @@ create table sale_album
         comment '主键id',
     sale_id     bigint unsigned not null
         comment '甩卖信息id',
-    url         varchar(255)    not null
+    image_id    varchar(36)     not null
         comment '图片URL',
     order_index int unsigned    not null
         comment '顺序',
@@ -157,3 +159,53 @@ create table sale_album
     default character set utf8mb4
     default collate utf8mb4_bin
     comment = '甩卖信息相册表';
+
+create table headline
+(
+    id         bigint unsigned not null auto_increment
+        comment '主键id',
+    title      varchar(50)     not null
+        comment '标题',
+    details    varchar(1000)   not null
+        comment '详情',
+    publish_at datetime(3)     not null
+        comment '发布时刻',
+    publish_by varchar(255)    not null
+        comment '发布用户id',
+    create_at  datetime(3)     not null
+        comment '数据插入时间',
+    modify_at  datetime(3)     not null
+        comment '最后修改时间',
+    achieved   bool            not null
+        comment '是否开启',
+    deleted    bool            not null
+        comment '删除标记',
+    primary key (id)
+)
+    engine = InnoDB
+    default character set utf8mb4
+    default collate utf8mb4_bin
+    comment = '首页弹窗';
+
+create table headline_album
+(
+    id          bigint unsigned not null auto_increment
+        comment '主键id',
+    headline_id bigint unsigned not null
+        comment '甩卖信息id',
+    image_id    varchar(36)     not null
+        comment '图片URL',
+    order_index int unsigned    not null
+        comment '顺序',
+    create_at   datetime(3)     not null
+        comment '数据插入时间',
+    modify_at   datetime(3)     not null
+        comment '最后修改时间',
+    deleted     bool            not null
+        comment '删除标记',
+    primary key (id)
+)
+    engine = InnoDB
+    default character set utf8mb4
+    default collate utf8mb4_bin
+    comment = '首页弹窗相册表';
