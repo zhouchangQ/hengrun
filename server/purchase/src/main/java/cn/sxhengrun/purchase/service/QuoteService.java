@@ -4,6 +4,7 @@ import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.entity.PurchaseAlbum;
 import cn.sxhengrun.purchase.entity.Quote;
 import cn.sxhengrun.purchase.entity.QuoteAlbum;
+import cn.sxhengrun.purchase.remote.ImageRemoteService;
 import cn.sxhengrun.purchase.repository.PurchaseRepository;
 import cn.sxhengrun.purchase.repository.QuoteAlbumRepository;
 import cn.sxhengrun.purchase.repository.QuoteRepository;
@@ -16,8 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuoteService {
@@ -27,6 +30,20 @@ public class QuoteService {
     private QuoteRepository quoteRepository;
     @Autowired
     private QuoteAlbumRepository quoteAlbumRepository;
+
+    @Autowired
+    private ImageRemoteService imageRemoteService;
+
+    public List<QuoteVO> getQuotes(String userId, long purchaseId) {
+        List<Quote> quotes = this.quoteRepository.findAllByPurchaseId(purchaseId);
+        return quotes.stream()
+                .sorted(Comparator.comparing(Quote::getQuoteAt))
+                .map(quote -> {
+                    List<QuoteAlbum> quoteAlbums = this.quoteAlbumRepository.findAllByQuoteId(quote.getId());
+                    return ConvertUtils.toVO(quote, quoteAlbums, this.imageRemoteService);
+                })
+                .collect(Collectors.toList());
+    }
 
     @Transactional
     public void quoteForPurchase(String userId, long purchaseId, QuoteVO quoteVO) {

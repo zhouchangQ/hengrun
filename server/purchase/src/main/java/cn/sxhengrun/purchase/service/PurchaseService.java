@@ -3,6 +3,7 @@ package cn.sxhengrun.purchase.service;
 import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.entity.PurchaseAlbum;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
+import cn.sxhengrun.purchase.repository.QuoteRepository;
 import cn.sxhengrun.purchase.repository.domain.OffsetBasedPageRequest;
 import cn.sxhengrun.purchase.repository.PurchaseAlbumRepository;
 import cn.sxhengrun.purchase.repository.PurchaseRepository;
@@ -33,6 +34,8 @@ public class PurchaseService {
     private PurchaseRepository purchaseRepository;
     @Autowired
     private PurchaseAlbumRepository purchaseAlbumRepository;
+    @Autowired
+    private QuoteRepository quoteRepository;
 
     @Autowired
     private ImageRemoteService imageRemoteService;
@@ -62,7 +65,9 @@ public class PurchaseService {
                 .stream()
                 .map(purchase -> {
                     List<PurchaseAlbum> purchaseAlbums = this.purchaseAlbumRepository.findAllByPurchaseId(purchase.getId());
-                    return ConvertUtils.toVO(purchase, purchaseAlbums, this.imageRemoteService);
+                    PurchaseVO purchaseVO = ConvertUtils.toVO(purchase, purchaseAlbums, this.imageRemoteService);
+                    purchaseVO.setQuoteCount(this.quoteRepository.countQuotesByPurchaseId(purchase.getId()));
+                    return purchaseVO;
                 })
                 .collect(Collectors.toList());
     }

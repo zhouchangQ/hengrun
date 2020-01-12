@@ -140,6 +140,38 @@ public class ConvertUtils {
     }
 
 
+    public static QuoteVO toVO(final Quote quote, final List<QuoteAlbum> quoteAlbums, final ImageRemoteService imageRemoteService) {
+        QuoteVO quoteVO = new QuoteVO();
+        quoteVO.setId(String.valueOf(quote.getId()));
+        quoteVO.setTel(quote.getTel());
+        quoteVO.setDetails(quote.getDetails());
+        quoteVO.setQuoteBy(quote.getQuoteBy());
+        quoteVO.setQuoteAt(quote.getQuoteAt());
+        quoteVO.setPhotos(Optional.ofNullable(quoteAlbums)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(purchaseAlbum -> purchaseAlbum.getOrderIndex() != null)
+                .filter(purchaseAlbum -> Boolean.FALSE.equals(purchaseAlbum.getDeleted()))
+                .sorted(comparing(QuoteAlbum::getOrderIndex))
+                .map(quoteAlbum -> {
+                    ImageInfo imageInfo = imageRemoteService.findImageInfo(quoteAlbum.getImageId());
+                    if (imageInfo == null) {
+                        return null;
+                    }
+
+                    PhotoVO photoVO = new PhotoVO();
+                    photoVO.setImageId(imageInfo.getId());
+                    photoVO.setShowOrder(quoteAlbum.getOrderIndex());
+                    photoVO.setThumbUrl(imageInfo.getThumbUrl());
+                    photoVO.setUrl(imageInfo.getOriginUrl());
+                    photoVO.setUserId(imageInfo.getUploadedBy());
+                    return photoVO;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList()));
+
+        return quoteVO;
+    }
 
     public static void toEntity(final QuoteVO quoteVO, final Quote quote, final List<QuoteAlbum> quoteAlbums) {
         Assert.notNull(quote, "quote is null");

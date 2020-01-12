@@ -13,6 +13,7 @@ public class PurchaseVO implements Serializable {
     private Date publishAt;
     private String publishBy;
     private boolean completed;
+    private long quoteCount;
 
     private List<PhotoVO> photos;
 
@@ -78,6 +79,14 @@ public class PurchaseVO implements Serializable {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public long getQuoteCount() {
+        return quoteCount;
+    }
+
+    public void setQuoteCount(long quoteCount) {
+        this.quoteCount = quoteCount;
     }
 
     public List<PhotoVO> getPhotos() {
