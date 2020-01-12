@@ -12,7 +12,6 @@ import java.util.List;
 public interface PurchaseAlbumRepository extends JpaRepository<PurchaseAlbum, Long> {
     List<PurchaseAlbum> findAllByPurchaseId(long purchaseId);
 
-
     @Modifying()
     @Query("update PurchaseAlbum set modifyAt = current_timestamp, deleted = true where purchaseId = :purchaseId")
     void trashByPurchaseId(long purchaseId);

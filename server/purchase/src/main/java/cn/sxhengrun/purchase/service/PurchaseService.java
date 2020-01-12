@@ -45,20 +45,21 @@ public class PurchaseService {
     public List<PurchaseVO> getPurchases(String[] types, OrderMode order, long offset, int limit) {
         Specification<Purchase> spec = (Specification<Purchase>) (root, query, criteriaBuilder) -> {
             List<Predicate> p = new ArrayList<>();
-            if (ArrayUtils.isEmpty(types)) {
-                return null;
+
+            p.add(criteriaBuilder.equal(root.get("deleted"), false));
+
+            if (!ArrayUtils.isEmpty(types)) {
+                In<String> in = criteriaBuilder.in(root.get("type"));
+
+                for (String type : types) {
+                    in.value(type);
+                }
+
+                p.add(in);
             }
 
-            In<String> in = criteriaBuilder.in(root.get("type"));
-
-            for(String type : types) {
-                in.value(type);
-            }
-
-            p.add(in);
             return criteriaBuilder.and(p.toArray(new Predicate[]{}));
         };
-
 
         Page<Purchase> page = this.purchaseRepository.findAll(spec, new OffsetBasedPageRequest(offset, limit,
                 Sort.by(OrderMode.DESC.equals(order) ? Order.desc("publishAt") : Order.asc("publishAt"))));
