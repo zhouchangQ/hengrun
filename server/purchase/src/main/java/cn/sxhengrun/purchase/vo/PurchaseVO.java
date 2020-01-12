@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class PurchaseVO implements Serializable {
-    private Long id;
+    private String id;
     private String title;
     private String tel;
     private String type;
@@ -14,13 +14,13 @@ public class PurchaseVO implements Serializable {
     private String publishBy;
     private boolean completed;
 
-    private List<AlbumVO> album;
+    private List<PhotoVO> photos;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -80,11 +80,11 @@ public class PurchaseVO implements Serializable {
         this.completed = completed;
     }
 
-    public List<AlbumVO> getAlbum() {
-        return album;
+    public List<PhotoVO> getPhotos() {
+        return photos;
     }
 
-    public void setAlbum(List<AlbumVO> album) {
-        this.album = album;
+    public void setPhotos(List<PhotoVO> photos) {
+        this.photos = photos;
     }
 }

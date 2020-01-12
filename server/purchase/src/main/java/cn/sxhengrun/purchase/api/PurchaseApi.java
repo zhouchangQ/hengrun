@@ -1,10 +1,10 @@
 package cn.sxhengrun.purchase.api;
 
-import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.service.PurchaseService;
 import cn.sxhengrun.purchase.vo.PurchaseVO;
 import org.eulerframework.cloud.security.EulerCloudUserContext;
 import org.eulerframework.web.core.base.controller.ApiSupportWebController;
+import org.eulerframework.web.core.base.request.QueryRequest.OrderMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,19 +25,18 @@ public class PurchaseApi extends ApiSupportWebController {
     @Autowired
     private PurchaseService purchaseService;
 
-
     @GetMapping
-    public List<PurchaseVO> getPurchase() {
-        return this.purchaseService.getPurchases();
+    public List<PurchaseVO> getPurchase(
+            @RequestParam(required = false) String[] types,
+            @RequestParam(required = false, defaultValue = "DESC") OrderMode order,
+            @RequestParam long offset,
+            @RequestParam int limit) {
+        return this.purchaseService.getPurchases(types, order, offset, limit);
     }
 
     @PostMapping
     public long savePurchase(@RequestBody PurchaseVO purchase) {
-        if(purchase.getId() == null) {
-            return this.purchaseService.addPurchase(EulerCloudUserContext.getCurrentUserId(), purchase);
-        } else {
-            return this.purchaseService.updatePurchase(EulerCloudUserContext.getCurrentUserId(), purchase);
-        }
+        return this.purchaseService.addOrUpdatePurchase(EulerCloudUserContext.getCurrentUserId(), purchase);
     }
 
     @DeleteMapping

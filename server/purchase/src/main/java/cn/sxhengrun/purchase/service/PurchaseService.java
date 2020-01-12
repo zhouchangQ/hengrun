@@ -1,22 +1,34 @@
 package cn.sxhengrun.purchase.service;
 
-import cn.sxhengrun.purchase.Increment;
 import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.entity.PurchaseAlbum;
+import cn.sxhengrun.purchase.remote.ImageRemoteService;
+import cn.sxhengrun.purchase.repository.OffsetBasedPageRequest;
 import cn.sxhengrun.purchase.repository.PurchaseAlbumRepository;
 import cn.sxhengrun.purchase.repository.PurchaseRepository;
-import cn.sxhengrun.purchase.vo.AlbumVO;
 import cn.sxhengrun.purchase.vo.PurchaseVO;
+import cn.sxhengrun.purchase.vo.util.ConvertUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.eulerframework.web.core.base.request.QueryRequest.OrderMode;
+import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaBuilder.In;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,43 +39,44 @@ public class PurchaseService {
     @Autowired
     private PurchaseAlbumRepository purchaseAlbumRepository;
 
-    public List<PurchaseVO> getPurchases() {
-        return Optional.ofNullable(this.purchaseRepository.findAll())
-                .orElse(Collections.emptyList())
+    @Autowired
+    private ImageRemoteService imageRemoteService;
+
+    public List<PurchaseVO> getPurchases(String[] types, OrderMode order, long offset, int limit) {
+        Specification<Purchase> spec = (Specification<Purchase>) (root, query, criteriaBuilder) -> {
+            List<Predicate> p = new ArrayList<>();
+            if (ArrayUtils.isEmpty(types)) {
+                return null;
+            }
+
+            In<String> in = criteriaBuilder.in(root.get("type"));
+
+            for(String type : types) {
+                in.value(type);
+            }
+
+            p.add(in);
+            return criteriaBuilder.and(p.toArray(new Predicate[]{}));
+        };
+
+
+        Page<Purchase> page = this.purchaseRepository.findAll(spec, new OffsetBasedPageRequest(offset, limit,
+                Sort.by(OrderMode.DESC.equals(order) ? Order.desc("publishAt") : Order.asc("publishAt"))));
+        return page.getContent()
                 .stream()
                 .filter(purchase -> purchase.getDeleted() == null || Boolean.FALSE.equals(purchase.getDeleted()))
                 .map(purchase -> {
-                    PurchaseVO purchaseVO = new PurchaseVO();
-                    purchaseVO.setId(purchase.getId());
-                    purchaseVO.setTitle(purchase.getTitle());
-                    purchaseVO.setTel(purchase.getTel());
-                    purchaseVO.setType(purchase.getType());
-                    purchaseVO.setDetails(purchase.getDetails());
-                    purchaseVO.setPublishAt(purchase.getPublishAt());
-                    purchaseVO.setPublishBy(purchase.getPublishBy());
-                    purchaseVO.setCompleted(purchase.getCompleted() == null ? false : purchase.getCompleted());
-
                     List<PurchaseAlbum> purchaseAlbums = this.purchaseAlbumRepository.findAllByPurchaseId(purchase.getId());
-
-                    purchaseVO.setAlbum(Optional
-                            .ofNullable(purchaseAlbums)
-                            .orElse(Collections.emptyList())
-                            .stream()
-                            .map(purchaseAlbum -> {
-                                AlbumVO albumVO = new AlbumVO();
-                                albumVO.setImageId(purchaseAlbum.getImageId());
-                                return albumVO;
-                            })
-                            .collect(Collectors.toList()));
-
-                    return purchaseVO;
+                    return ConvertUtils.toVO(purchase, purchaseAlbums, this.imageRemoteService);
                 })
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public Long addPurchase(String userId, PurchaseVO purchaseVO) {
+    public Long addOrUpdatePurchase(String userId, PurchaseVO purchaseVO) {
         Purchase purchase = new Purchase();
+        List<PurchaseAlbum> purchaseAlbums = new ArrayList<>();
+        ConvertUtils.toEntity(purchaseVO, purchase, purchaseAlbums);
 
         purchase.setTitle(purchaseVO.getTitle());
         purchase.setTel(purchaseVO.getTel());
@@ -71,69 +84,44 @@ public class PurchaseService {
         purchase.setDetails(purchaseVO.getDetails());
 
         Date now = new Date();
-        purchase.setPublishAt(now);
-        purchase.setPublishBy(userId);
-        purchase.setCreateAt(now);
+
+        if (purchase.getId() == null) {
+            purchase.setPublishAt(now);
+            purchase.setPublishBy(userId);
+            purchase.setCreateAt(now);
+        } else {
+            Purchase exitsPurchase = this.purchaseRepository.findById(purchase.getId()).orElse(null);
+
+            if (exitsPurchase == null || Boolean.TRUE.equals(exitsPurchase.getDeleted())) {
+                throw new IllegalArgumentException("要修改的采购信息不存在");
+            }
+
+            purchase.setPublishAt(exitsPurchase.getPublishAt());
+            purchase.setPublishBy(exitsPurchase.getPublishBy());
+            purchase.setCreateAt(exitsPurchase.getCreateAt());
+        }
+
         purchase.setModifyAt(now);
         purchase.setDeleted(false);
-        purchase.setCompleted(purchaseVO.isCompleted());
-
         this.purchaseRepository.save(purchase);
 
-        this.savePurchaseAlbum(purchase.getId(), purchaseVO.getAlbum());
-
+        this.savePurchaseAlbum(purchase.getId(), purchaseAlbums);
         return purchase.getId();
     }
 
-    @Transactional
-    public Long updatePurchase(String userId, PurchaseVO purchaseVO) {
-        Purchase purchase = this.purchaseRepository.findById(purchaseVO.getId()).orElse(null);
-
-        if (purchase == null || purchase.getDeleted()) {
-            throw new IllegalArgumentException("指定的采购ID不存在");
+    private void savePurchaseAlbum(long purchaseId, List<PurchaseAlbum> purchaseAlbums) {
+        this.purchaseAlbumRepository.deleteAllByPurchaseId(purchaseId);
+        if (CollectionUtils.isEmpty(purchaseAlbums)) {
+            return;
         }
-
-        purchase.setTitle(purchaseVO.getTitle());
-        purchase.setTel(purchaseVO.getTel());
-        purchase.setType(purchaseVO.getType());
-        purchase.setDetails(purchaseVO.getDetails());
-
         Date now = new Date();
-        purchase.setModifyAt(now);
-        purchase.setDeleted(false);
-        purchase.setCompleted(purchaseVO.isCompleted());
-
-        this.purchaseRepository.save(purchase);
-
-        this.purchaseAlbumRepository.deleteAllByPurchaseId(purchase.getId());
-
-        this.savePurchaseAlbum(purchase.getId(), purchaseVO.getAlbum());
-
-        return purchase.getId();
-    }
-
-    private void savePurchaseAlbum(long purchaseId, List<AlbumVO> albumVOS) {
-        Increment increment = Increment.newInstance();
-        Date now = new Date();
-        List<PurchaseAlbum> purchaseAlbums = Optional.ofNullable(albumVOS)
-                .orElse(Collections.emptyList())
-                .stream()
-                .filter(albumVO -> albumVO != null && StringUtils.hasText(albumVO.getImageId()))
-                .map(albumVO -> {
-                    PurchaseAlbum purchaseAlbum = new PurchaseAlbum();
-                    purchaseAlbum.setImageId(albumVO.getImageId());
-                    purchaseAlbum.setPurchaseId(purchaseId);
-                    purchaseAlbum.setOrderIndex(increment.getAndIncrement());
-                    purchaseAlbum.setCreateAt(now);
-                    purchaseAlbum.setModifyAt(now);
-                    purchaseAlbum.setDeleted(false);
-                    return purchaseAlbum;
-                })
-                .collect(Collectors.toList());
-
-        if (!CollectionUtils.isEmpty(purchaseAlbums)) {
-            this.purchaseAlbumRepository.saveAll(purchaseAlbums);
+        for (PurchaseAlbum purchaseAlbum : purchaseAlbums) {
+            purchaseAlbum.setPurchaseId(purchaseId);
+            purchaseAlbum.setCreateAt(now);
+            purchaseAlbum.setModifyAt(now);
+            purchaseAlbum.setDeleted(false);
         }
+        this.purchaseAlbumRepository.saveAll(purchaseAlbums);
     }
 
     @Transactional
