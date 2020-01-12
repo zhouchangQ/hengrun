@@ -1,4 +1,4 @@
-package cn.sxhengrun.purchase.repository;
+package cn.sxhengrun.purchase.repository.domain;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

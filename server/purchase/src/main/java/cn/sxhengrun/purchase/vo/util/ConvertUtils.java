@@ -2,10 +2,13 @@ package cn.sxhengrun.purchase.vo.util;
 
 import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.entity.PurchaseAlbum;
+import cn.sxhengrun.purchase.entity.Sale;
+import cn.sxhengrun.purchase.entity.SaleAlbum;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
 import cn.sxhengrun.purchase.remote.vo.ImageInfo;
 import cn.sxhengrun.purchase.vo.PhotoVO;
 import cn.sxhengrun.purchase.vo.PurchaseVO;
+import cn.sxhengrun.purchase.vo.SaleVO;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -73,6 +76,62 @@ public class ConvertUtils {
                 purchaseAlbum.setImageId(photoVO.getImageId());
                 purchaseAlbum.setOrderIndex(index++);
                 purchaseAlbums.add(purchaseAlbum);
+            }
+        }
+    }
+    public static SaleVO toVO(final Sale sale, final List<SaleAlbum> saleAlbums, final ImageRemoteService imageRemoteService) {
+        SaleVO saleVO = new SaleVO();
+        saleVO.setId(String.valueOf(sale.getId()));
+        saleVO.setTitle(sale.getTitle());
+        saleVO.setTel(sale.getTel());
+        saleVO.setType(sale.getType());
+        saleVO.setDetails(sale.getDetails());
+        saleVO.setPublishBy(sale.getPublishBy());
+        saleVO.setPublishAt(sale.getPublishAt());
+        saleVO.setPhotos(Optional.ofNullable(saleAlbums)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(purchaseAlbum -> purchaseAlbum.getOrderIndex() != null)
+                .filter(purchaseAlbum -> Boolean.FALSE.equals(purchaseAlbum.getDeleted()))
+                .sorted(comparing(SaleAlbum::getOrderIndex))
+                .map(saleAlbum -> {
+                    ImageInfo imageInfo = imageRemoteService.findImageInfo(saleAlbum.getImageId());
+                    if (imageInfo == null) {
+                        return null;
+                    }
+
+                    PhotoVO photoVO = new PhotoVO();
+                    photoVO.setImageId(imageInfo.getId());
+                    photoVO.setShowOrder(saleAlbum.getOrderIndex());
+                    photoVO.setThumbUrl(imageInfo.getThumbUrl());
+                    photoVO.setUrl(imageInfo.getOriginUrl());
+                    photoVO.setUserId(imageInfo.getUploadedBy());
+                    return photoVO;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList()));
+
+        return saleVO;
+    }
+
+    public static void toEntity(final SaleVO saleVO, final Sale sale, final List<SaleAlbum> saleAlbums) {
+        Assert.notNull(sale, "purchase is null");
+        Assert.notNull(saleAlbums, "purchaseAlbums is null");
+        Assert.isTrue(saleAlbums.isEmpty(), "purchaseAlbums is not empty");
+
+        sale.setId(saleVO.getId() == null ? null : Long.parseLong(saleVO.getId()));
+        sale.setTitle(saleVO.getTitle());
+        sale.setTel(saleVO.getTel());
+        sale.setType(saleVO.getType());
+        sale.setDetails(saleVO.getDetails());
+
+        if (!CollectionUtils.isEmpty(saleVO.getPhotos())) {
+            int index = 0;
+            for (PhotoVO photoVO : saleVO.getPhotos()) {
+                SaleAlbum saleAlbum = new SaleAlbum();
+                saleAlbum.setImageId(photoVO.getImageId());
+                saleAlbum.setOrderIndex(index++);
+                saleAlbums.add(saleAlbum);
             }
         }
     }
