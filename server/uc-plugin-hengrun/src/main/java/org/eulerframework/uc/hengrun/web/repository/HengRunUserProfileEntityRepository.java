@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HengRunUserProfileEntityRepository extends JpaRepository<HengRunUserProfileEntity, String> {
+    HengRunUserProfileEntity findByUserId(String userId);
 }

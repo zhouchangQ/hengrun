@@ -2,6 +2,8 @@ package org.eulerframework.uc.hengrun.web.controller;
 
 import org.eulerframework.common.util.Assert;
 import org.eulerframework.common.util.StringUtils;
+import org.eulerframework.uc.hengrun.web.entity.HengRunUserProfileEntity;
+import org.eulerframework.uc.hengrun.web.repository.HengRunUserProfileEntityRepository;
 import org.eulerframework.uc.hengrun.web.repository.HengRunUserRepository;
 import org.eulerframework.uc.hengrun.web.vo.PurchaserVO;
 import org.eulerframework.web.core.annotation.ApiEndpoint;
@@ -56,6 +58,9 @@ public class PurchaserManageApi extends ApiSupportWebController {
     @Resource
     private GroupRepository groupRepository;
 
+    @Autowired
+    private HengRunUserProfileEntityRepository hengRunUserProfileEntityRepository;
+
     @GetMapping
     public List<PurchaserVO> getPurchasers() {
         this.checkPermission();
@@ -93,6 +98,16 @@ public class PurchaserManageApi extends ApiSupportWebController {
             Map<String, Object> profile = new HashMap<>();
             profile.put("fullName", purchaserVO.getFullName());
             eulerUserEntity = this.userRegistService.signUp(null, null, purchaserVO.getMobile(), password, profile);
+        } else {
+            //已注册的情况更新姓名
+            HengRunUserProfileEntity hengRunUserProfileEntity = this.hengRunUserProfileEntityRepository.findByUserId(eulerUserEntity.getUserId());
+            if(hengRunUserProfileEntity == null) {
+                //没填写过用户信息的新建一个
+                hengRunUserProfileEntity = new HengRunUserProfileEntity();
+                hengRunUserProfileEntity.setUserId(eulerUserEntity.getUserId());
+            }
+            hengRunUserProfileEntity.setFullName(purchaserVO.getFullName());
+            this.hengRunUserProfileEntityRepository.save(hengRunUserProfileEntity);
         }
 
         User currentUserEntity = this.userRepository.findUserById(eulerUserEntity.getUserId());
