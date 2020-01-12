@@ -1,7 +1,6 @@
 package cn.sxhengrun.purchase.repository;
 
 import cn.sxhengrun.purchase.entity.HeadlineAlbum;
-import cn.sxhengrun.purchase.entity.PurchaseAlbum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +19,5 @@ public interface HeadlineAlbumRepository extends JpaRepository<HeadlineAlbum, Lo
 
     @Modifying()
     @Query("delete from HeadlineAlbum where headlineId = :headlineId")
-    void deleteAllByHeadlineId(long headlineId);
+    void deleteByHeadlineId(long headlineId);
 }

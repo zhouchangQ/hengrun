@@ -2,12 +2,15 @@ package cn.sxhengrun.purchase.vo.util;
 
 import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.entity.PurchaseAlbum;
+import cn.sxhengrun.purchase.entity.Quote;
+import cn.sxhengrun.purchase.entity.QuoteAlbum;
 import cn.sxhengrun.purchase.entity.Sale;
 import cn.sxhengrun.purchase.entity.SaleAlbum;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
 import cn.sxhengrun.purchase.remote.vo.ImageInfo;
 import cn.sxhengrun.purchase.vo.PhotoVO;
 import cn.sxhengrun.purchase.vo.PurchaseVO;
+import cn.sxhengrun.purchase.vo.QuoteVO;
 import cn.sxhengrun.purchase.vo.SaleVO;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -115,9 +118,9 @@ public class ConvertUtils {
     }
 
     public static void toEntity(final SaleVO saleVO, final Sale sale, final List<SaleAlbum> saleAlbums) {
-        Assert.notNull(sale, "purchase is null");
-        Assert.notNull(saleAlbums, "purchaseAlbums is null");
-        Assert.isTrue(saleAlbums.isEmpty(), "purchaseAlbums is not empty");
+        Assert.notNull(sale, "sale is null");
+        Assert.notNull(saleAlbums, "saleAlbums is null");
+        Assert.isTrue(saleAlbums.isEmpty(), "saleAlbums is not empty");
 
         sale.setId(saleVO.getId() == null ? null : Long.parseLong(saleVO.getId()));
         sale.setTitle(saleVO.getTitle());
@@ -132,6 +135,28 @@ public class ConvertUtils {
                 saleAlbum.setImageId(photoVO.getImageId());
                 saleAlbum.setOrderIndex(index++);
                 saleAlbums.add(saleAlbum);
+            }
+        }
+    }
+
+
+
+    public static void toEntity(final QuoteVO quoteVO, final Quote quote, final List<QuoteAlbum> quoteAlbums) {
+        Assert.notNull(quote, "quote is null");
+        Assert.notNull(quoteAlbums, "quoteAlbums is null");
+        Assert.isTrue(quoteAlbums.isEmpty(), "quoteAlbums is not empty");
+
+        quote.setId(quoteVO.getId() == null ? null : Long.parseLong(quoteVO.getId()));
+        quote.setTel(quoteVO.getTel());
+        quote.setDetails(quoteVO.getDetails());
+
+        if (!CollectionUtils.isEmpty(quoteVO.getPhotos())) {
+            int index = 0;
+            for (PhotoVO photoVO : quoteVO.getPhotos()) {
+                QuoteAlbum quoteAlbum = new QuoteAlbum();
+                quoteAlbum.setImageId(photoVO.getImageId());
+                quoteAlbum.setOrderIndex(index++);
+                quoteAlbums.add(quoteAlbum);
             }
         }
     }

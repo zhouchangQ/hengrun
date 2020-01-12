@@ -128,7 +128,7 @@ public class SaleService {
     }
 
     private void saveSaleAlbum(long saleId, List<SaleAlbum> saleAlbums) {
-        this.saleAlbumRepository.deleteAllBySaleId(saleId);
+        this.saleAlbumRepository.deleteBySaleId(saleId);
         if (CollectionUtils.isEmpty(saleAlbums)) {
             return;
         }

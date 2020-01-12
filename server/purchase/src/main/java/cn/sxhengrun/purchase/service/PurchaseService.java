@@ -125,7 +125,7 @@ public class PurchaseService {
     }
 
     private void savePurchaseAlbum(long purchaseId, List<PurchaseAlbum> purchaseAlbums) {
-        this.purchaseAlbumRepository.deleteAllByPurchaseId(purchaseId);
+        this.purchaseAlbumRepository.deleteByPurchaseId(purchaseId);
         if (CollectionUtils.isEmpty(purchaseAlbums)) {
             return;
         }

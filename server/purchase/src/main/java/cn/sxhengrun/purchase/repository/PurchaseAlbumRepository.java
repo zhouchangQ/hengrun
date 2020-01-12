@@ -19,5 +19,5 @@ public interface PurchaseAlbumRepository extends JpaRepository<PurchaseAlbum, Lo
 
     @Modifying()
     @Query("delete from PurchaseAlbum where purchaseId = :purchaseId")
-    void deleteAllByPurchaseId(long purchaseId);
+    void deleteByPurchaseId(long purchaseId);
 }

@@ -19,5 +19,5 @@ public interface QuoteAlbumRepository extends JpaRepository<QuoteAlbum, Long> {
 
     @Modifying()
     @Query("delete from QuoteAlbum where quoteId = :quoteId")
-    void deleteAllByQuoteId(long quoteId);
+    void deleteByQuoteId(long quoteId);
 }
