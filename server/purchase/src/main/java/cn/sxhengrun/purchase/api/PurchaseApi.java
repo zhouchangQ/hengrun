@@ -43,4 +43,9 @@ public class PurchaseApi extends ApiSupportWebController {
     public void trashPurchase(@RequestParam long id) {
         this.purchaseService.trashPurchase(EulerCloudUserContext.getCurrentUserId(), id);
     }
+
+    @PostMapping("completePurchase")
+    public void completePurchase(@RequestParam long id) {
+        this.purchaseService.completePurchase(EulerCloudUserContext.getCurrentUserId(), id);
+    }
 }

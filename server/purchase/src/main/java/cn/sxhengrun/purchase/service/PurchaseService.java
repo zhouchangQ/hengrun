@@ -116,6 +116,19 @@ public class PurchaseService {
         this.purchaseRepository.trashById(id, now);
     }
 
+    @Transactional
+    public void completePurchase(String userId, long purchaseId) {
+        Purchase exitsPurchase = this.purchaseRepository.findById(purchaseId).orElse(null);
+
+        if (exitsPurchase == null || Boolean.TRUE.equals(exitsPurchase.getDeleted())) {
+            throw new IllegalArgumentException("采购信息不存在");
+        }
+
+        exitsPurchase.setCompleted(true);
+        exitsPurchase.setModifyAt(new Date());
+        this.purchaseRepository.save(exitsPurchase);
+    }
+
     private void savePurchaseAlbum(long purchaseId, List<PurchaseAlbum> purchaseAlbums) {
         this.purchaseAlbumRepository.deleteAllByPurchaseId(purchaseId);
         if (CollectionUtils.isEmpty(purchaseAlbums)) {
