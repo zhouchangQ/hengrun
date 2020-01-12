@@ -31,7 +31,7 @@ public class PurchaseApi extends ApiSupportWebController {
             @RequestParam(required = false, defaultValue = "DESC") OrderMode order,
             @RequestParam long offset,
             @RequestParam int limit) {
-        return this.purchaseService.getPurchases(types, order, offset, limit);
+        return this.purchaseService.getPurchases(EulerCloudUserContext.getCurrentUserId(), types, order, offset, limit);
     }
 
     @PostMapping
@@ -41,6 +41,6 @@ public class PurchaseApi extends ApiSupportWebController {
 
     @DeleteMapping
     public void trashPurchase(@RequestParam long id) {
-        this.purchaseService.trashPurchase(id);
+        this.purchaseService.trashPurchase(EulerCloudUserContext.getCurrentUserId(), id);
     }
 }

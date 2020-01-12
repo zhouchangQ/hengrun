@@ -42,7 +42,7 @@ public class PurchaseService {
     @Autowired
     private ImageRemoteService imageRemoteService;
 
-    public List<PurchaseVO> getPurchases(String[] types, OrderMode order, long offset, int limit) {
+    public List<PurchaseVO> getPurchases(String userId, String[] types, OrderMode order, long offset, int limit) {
         Specification<Purchase> spec = (Specification<Purchase>) (root, query, criteriaBuilder) -> {
             List<Predicate> p = new ArrayList<>();
 
@@ -109,6 +109,13 @@ public class PurchaseService {
         return purchase.getId();
     }
 
+    @Transactional
+    public void trashPurchase(String userId, long id) {
+        Date now = new Date();
+        this.purchaseAlbumRepository.trashByPurchaseId(id, now);
+        this.purchaseRepository.trashById(id, now);
+    }
+
     private void savePurchaseAlbum(long purchaseId, List<PurchaseAlbum> purchaseAlbums) {
         this.purchaseAlbumRepository.deleteAllByPurchaseId(purchaseId);
         if (CollectionUtils.isEmpty(purchaseAlbums)) {
@@ -122,11 +129,5 @@ public class PurchaseService {
             purchaseAlbum.setDeleted(false);
         }
         this.purchaseAlbumRepository.saveAll(purchaseAlbums);
-    }
-
-    @Transactional
-    public void trashPurchase(long id) {
-        this.purchaseAlbumRepository.trashByPurchaseId(id);
-        this.purchaseRepository.trashById(id);
     }
 }

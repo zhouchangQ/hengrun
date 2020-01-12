@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
+
 public class ConvertUtils {
     public static PurchaseVO toVO(final Purchase purchase, final List<PurchaseAlbum> purchaseAlbums, final ImageRemoteService imageRemoteService) {
         PurchaseVO purchaseVO = new PurchaseVO();
@@ -29,6 +31,9 @@ public class ConvertUtils {
         purchaseVO.setPhotos(Optional.ofNullable(purchaseAlbums)
                 .orElse(Collections.emptyList())
                 .stream()
+                .filter(purchaseAlbum -> purchaseAlbum.getOrderIndex() != null)
+                .filter(purchaseAlbum -> Boolean.FALSE.equals(purchaseAlbum.getDeleted()))
+                .sorted(comparing(PurchaseAlbum::getOrderIndex))
                 .map(purchaseAlbum -> {
                     ImageInfo imageInfo = imageRemoteService.findImageInfo(purchaseAlbum.getImageId());
                     if (imageInfo == null) {
@@ -54,18 +59,19 @@ public class ConvertUtils {
         Assert.notNull(purchaseAlbums, "purchaseAlbums is null");
         Assert.isTrue(purchaseAlbums.isEmpty(), "purchaseAlbums is not empty");
 
-        purchase.setId(Long.parseLong(purchaseVO.getId()));
+        purchase.setId(purchaseVO.getId() == null ? null : Long.parseLong(purchaseVO.getId()));
         purchase.setTitle(purchaseVO.getTitle());
         purchase.setTel(purchaseVO.getTel());
         purchase.setType(purchaseVO.getType());
         purchase.setDetails(purchaseVO.getDetails());
         purchase.setCompleted(purchaseVO.isCompleted());
 
-        if(!CollectionUtils.isEmpty(purchaseVO.getPhotos())) {
-            for(PhotoVO photoVO : purchaseVO.getPhotos()) {
+        if (!CollectionUtils.isEmpty(purchaseVO.getPhotos())) {
+            int index = 0;
+            for (PhotoVO photoVO : purchaseVO.getPhotos()) {
                 PurchaseAlbum purchaseAlbum = new PurchaseAlbum();
                 purchaseAlbum.setImageId(photoVO.getImageId());
-                purchaseAlbum.setOrderIndex(photoVO.getShowOrder());
+                purchaseAlbum.setOrderIndex(index++);
                 purchaseAlbums.add(purchaseAlbum);
             }
         }

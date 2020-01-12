@@ -7,14 +7,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long>, JpaSpecificationExecutor<Purchase> {
 
     @Modifying()
-    @Query("update Purchase set modifyAt = current_timestamp, deleted = true where id = :id")
-    void trashById(long id);
-
-    @Modifying
-    @Query("delete from Purchase where id = :id")
-    void deletePurchase(long id);
+    @Query("update Purchase set modifyAt = :timestamp, deleted = true where id = :id")
+    void trashById(long id, Date timestamp);
 }
