@@ -65,7 +65,6 @@ public class PurchaseService {
                 Sort.by(OrderMode.DESC.equals(order) ? Order.desc("publishAt") : Order.asc("publishAt"))));
         return page.getContent()
                 .stream()
-                .filter(purchase -> purchase.getDeleted() == null || Boolean.FALSE.equals(purchase.getDeleted()))
                 .map(purchase -> {
                     List<PurchaseAlbum> purchaseAlbums = this.purchaseAlbumRepository.findAllByPurchaseId(purchase.getId());
                     return ConvertUtils.toVO(purchase, purchaseAlbums, this.imageRemoteService);
