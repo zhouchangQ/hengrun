@@ -1,7 +1,6 @@
 package cn.sxhengrun.purchase.service;
 
 import cn.sxhengrun.purchase.entity.Purchase;
-import cn.sxhengrun.purchase.entity.PurchaseAlbum;
 import cn.sxhengrun.purchase.entity.Quote;
 import cn.sxhengrun.purchase.entity.QuoteAlbum;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
@@ -12,7 +11,6 @@ import cn.sxhengrun.purchase.vo.QuoteVO;
 import cn.sxhengrun.purchase.vo.util.ConvertUtils;
 import org.eulerframework.common.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
