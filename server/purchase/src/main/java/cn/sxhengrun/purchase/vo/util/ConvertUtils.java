@@ -1,5 +1,7 @@
 package cn.sxhengrun.purchase.vo.util;
 
+import cn.sxhengrun.purchase.entity.Headline;
+import cn.sxhengrun.purchase.entity.HeadlineAlbum;
 import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.entity.PurchaseAlbum;
 import cn.sxhengrun.purchase.entity.Quote;
@@ -8,6 +10,7 @@ import cn.sxhengrun.purchase.entity.Sale;
 import cn.sxhengrun.purchase.entity.SaleAlbum;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
 import cn.sxhengrun.purchase.remote.vo.ImageInfo;
+import cn.sxhengrun.purchase.vo.HeadlineVO;
 import cn.sxhengrun.purchase.vo.PhotoVO;
 import cn.sxhengrun.purchase.vo.PurchaseVO;
 import cn.sxhengrun.purchase.vo.QuoteVO;
@@ -82,6 +85,7 @@ public class ConvertUtils {
             }
         }
     }
+
     public static SaleVO toVO(final Sale sale, final List<SaleAlbum> saleAlbums, final ImageRemoteService imageRemoteService) {
         SaleVO saleVO = new SaleVO();
         saleVO.setId(String.valueOf(sale.getId()));
@@ -94,8 +98,8 @@ public class ConvertUtils {
         saleVO.setPhotos(Optional.ofNullable(saleAlbums)
                 .orElse(Collections.emptyList())
                 .stream()
-                .filter(purchaseAlbum -> purchaseAlbum.getOrderIndex() != null)
-                .filter(purchaseAlbum -> Boolean.FALSE.equals(purchaseAlbum.getDeleted()))
+                .filter(saleAlbum -> saleAlbum.getOrderIndex() != null)
+                .filter(saleAlbum -> Boolean.FALSE.equals(saleAlbum.getDeleted()))
                 .sorted(comparing(SaleAlbum::getOrderIndex))
                 .map(saleAlbum -> {
                     ImageInfo imageInfo = imageRemoteService.findImageInfo(saleAlbum.getImageId());
@@ -150,8 +154,8 @@ public class ConvertUtils {
         quoteVO.setPhotos(Optional.ofNullable(quoteAlbums)
                 .orElse(Collections.emptyList())
                 .stream()
-                .filter(purchaseAlbum -> purchaseAlbum.getOrderIndex() != null)
-                .filter(purchaseAlbum -> Boolean.FALSE.equals(purchaseAlbum.getDeleted()))
+                .filter(quoteAlbum -> quoteAlbum.getOrderIndex() != null)
+                .filter(quoteAlbum -> Boolean.FALSE.equals(quoteAlbum.getDeleted()))
                 .sorted(comparing(QuoteAlbum::getOrderIndex))
                 .map(quoteAlbum -> {
                     ImageInfo imageInfo = imageRemoteService.findImageInfo(quoteAlbum.getImageId());
@@ -189,6 +193,61 @@ public class ConvertUtils {
                 quoteAlbum.setImageId(photoVO.getImageId());
                 quoteAlbum.setOrderIndex(index++);
                 quoteAlbums.add(quoteAlbum);
+            }
+        }
+    }
+
+    public static HeadlineVO toVO(final Headline headline, final List<HeadlineAlbum> headlineAlbums, final ImageRemoteService imageRemoteService) {
+        HeadlineVO headlineVO = new HeadlineVO();
+        headlineVO.setId(String.valueOf(headline.getId()));
+        headlineVO.setTitle(headline.getTitle());
+        headlineVO.setDetails(headline.getDetails());
+        headlineVO.setActive(headline.getActive() == null ? false : headline.getActive());
+        headlineVO.setPublishBy(headline.getPublishBy());
+        headlineVO.setPublishAt(headline.getPublishAt());
+        headlineVO.setPhotos(Optional.ofNullable(headlineAlbums)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(headlineAlbum -> headlineAlbum.getOrderIndex() != null)
+                .filter(headlineAlbum -> Boolean.FALSE.equals(headlineAlbum.getDeleted()))
+                .sorted(comparing(HeadlineAlbum::getOrderIndex))
+                .map(headlineAlbum -> {
+                    ImageInfo imageInfo = imageRemoteService.findImageInfo(headlineAlbum.getImageId());
+                    if (imageInfo == null) {
+                        return null;
+                    }
+
+                    PhotoVO photoVO = new PhotoVO();
+                    photoVO.setImageId(imageInfo.getId());
+                    photoVO.setShowOrder(headlineAlbum.getOrderIndex());
+                    photoVO.setThumbUrl(imageInfo.getThumbUrl());
+                    photoVO.setUrl(imageInfo.getOriginUrl());
+                    photoVO.setUserId(imageInfo.getUploadedBy());
+                    return photoVO;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList()));
+
+        return headlineVO;
+    }
+
+    public static void toEntity(final HeadlineVO headlineVO, final Headline headline, final List<HeadlineAlbum> headlineAlbums) {
+        Assert.notNull(headline, "headline is null");
+        Assert.notNull(headlineAlbums, "headlineAlbums is null");
+        Assert.isTrue(headlineAlbums.isEmpty(), "headlineAlbums is not empty");
+
+        headline.setId(headlineVO.getId() == null ? null : Long.parseLong(headlineVO.getId()));
+        headline.setTitle(headlineVO.getTitle());
+        headline.setDetails(headlineVO.getDetails());
+        headline.setActive(headlineVO.isActive());
+
+        if (!CollectionUtils.isEmpty(headlineVO.getPhotos())) {
+            int index = 0;
+            for (PhotoVO photoVO : headlineVO.getPhotos()) {
+                HeadlineAlbum headlineAlbum = new HeadlineAlbum();
+                headlineAlbum.setImageId(photoVO.getImageId());
+                headlineAlbum.setOrderIndex(index++);
+                headlineAlbums.add(headlineAlbum);
             }
         }
     }

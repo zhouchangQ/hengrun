@@ -40,6 +40,8 @@ public class SaleService {
     private ImageRemoteService imageRemoteService;
 
     public List<SaleVO> getSales(String userId, String[] types, String publishBy, OrderMode order, long offset, int limit) {
+        Assert.hasText(userId, "userId is required");
+
         Specification<Sale> spec = (Specification<Sale>) (root, query, criteriaBuilder) -> {
             List<Predicate> p = new ArrayList<>();
 
@@ -59,7 +61,7 @@ public class SaleService {
                 p.add(in);
             }
 
-            return criteriaBuilder.and(p.toArray(new Predicate[]{}));
+            return criteriaBuilder.and(p.toArray(new Predicate[0]));
         };
 
         Page<Sale> page = this.saleRepository.findAll(spec, new OffsetBasedPageRequest(offset, limit,
@@ -80,11 +82,6 @@ public class SaleService {
         Sale sale = new Sale();
         List<SaleAlbum> saleAlbums = new ArrayList<>();
         ConvertUtils.toEntity(saleVO, sale, saleAlbums);
-
-        sale.setTitle(saleVO.getTitle());
-        sale.setTel(saleVO.getTel());
-        sale.setType(saleVO.getType());
-        sale.setDetails(saleVO.getDetails());
 
         Date now = new Date();
 

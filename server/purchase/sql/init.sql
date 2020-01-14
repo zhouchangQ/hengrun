@@ -176,7 +176,7 @@ create table headline
         comment '数据插入时间',
     modify_at  datetime(3)     not null
         comment '最后修改时间',
-    achieved   bool            not null
+    active     bool            not null
         comment '是否开启',
     deleted    bool            not null
         comment '删除标记',

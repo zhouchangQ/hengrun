@@ -10,6 +10,7 @@ import cn.sxhengrun.purchase.repository.QuoteAlbumRepository;
 import cn.sxhengrun.purchase.repository.QuoteRepository;
 import cn.sxhengrun.purchase.vo.QuoteVO;
 import cn.sxhengrun.purchase.vo.util.ConvertUtils;
+import org.eulerframework.common.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,8 @@ public class QuoteService {
     private ImageRemoteService imageRemoteService;
 
     public List<QuoteVO> getQuotes(String userId, long purchaseId) {
+        Assert.hasText(userId, "userId is required");
+
         List<Quote> quotes = this.quoteRepository.findAllByPurchaseId(purchaseId);
         return quotes.stream()
                 .sorted(Comparator.comparing(Quote::getQuoteAt))
@@ -47,6 +50,8 @@ public class QuoteService {
 
     @Transactional
     public void quoteForPurchase(String userId, long purchaseId, QuoteVO quoteVO) {
+        Assert.hasText(userId, "userId is required");
+
         Purchase exitsPurchase = this.purchaseRepository.findById(purchaseId).orElse(null);
 
         if (exitsPurchase == null || Boolean.TRUE.equals(exitsPurchase.getDeleted())) {
@@ -58,6 +63,7 @@ public class QuoteService {
         Quote quote = new Quote();
         List<QuoteAlbum> quoteAlbums = new ArrayList<>();
         ConvertUtils.toEntity(quoteVO, quote, quoteAlbums);
+
         quote.setPurchaseId(purchaseId);
         quote.setQuoteAt(now);
         quote.setQuoteBy(userId);
@@ -67,8 +73,8 @@ public class QuoteService {
 
 
         List<Quote> exitsQuotes = this.quoteRepository.findAllByQuoteBy(userId);
-        if(!CollectionUtils.isEmpty(exitsQuotes)) {
-            for(Quote exitsQuote : exitsQuotes) {
+        if (!CollectionUtils.isEmpty(exitsQuotes)) {
+            for (Quote exitsQuote : exitsQuotes) {
                 this.quoteAlbumRepository.deleteByQuoteId(exitsQuote.getId());
                 this.quoteRepository.delete(exitsQuote);
             }

@@ -10,6 +10,7 @@ import cn.sxhengrun.purchase.repository.PurchaseRepository;
 import cn.sxhengrun.purchase.vo.PurchaseVO;
 import cn.sxhengrun.purchase.vo.util.ConvertUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.eulerframework.common.util.Assert;
 import org.eulerframework.web.core.base.request.QueryRequest.OrderMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,8 @@ public class PurchaseService {
     private ImageRemoteService imageRemoteService;
 
     public List<PurchaseVO> getPurchases(String userId, String[] types, OrderMode order, long offset, int limit) {
+        Assert.hasText(userId, "userId is required");
+
         Specification<Purchase> spec = (Specification<Purchase>) (root, query, criteriaBuilder) -> {
             List<Predicate> p = new ArrayList<>();
 
@@ -74,14 +77,11 @@ public class PurchaseService {
 
     @Transactional
     public Long addOrUpdatePurchase(String userId, PurchaseVO purchaseVO) {
+        Assert.hasText(userId, "userId is required");
+
         Purchase purchase = new Purchase();
         List<PurchaseAlbum> purchaseAlbums = new ArrayList<>();
         ConvertUtils.toEntity(purchaseVO, purchase, purchaseAlbums);
-
-        purchase.setTitle(purchaseVO.getTitle());
-        purchase.setTel(purchaseVO.getTel());
-        purchase.setType(purchaseVO.getType());
-        purchase.setDetails(purchaseVO.getDetails());
 
         Date now = new Date();
 
@@ -111,6 +111,8 @@ public class PurchaseService {
 
     @Transactional
     public void trashPurchase(String userId, long id) {
+        Assert.hasText(userId, "userId is required");
+
         Date now = new Date();
         this.purchaseAlbumRepository.trashByPurchaseId(id, now);
         this.purchaseRepository.trashById(id, now);
@@ -118,6 +120,8 @@ public class PurchaseService {
 
     @Transactional
     public void completePurchase(String userId, long purchaseId) {
+        Assert.hasText(userId, "userId is required");
+
         Purchase exitsPurchase = this.purchaseRepository.findById(purchaseId).orElse(null);
 
         if (exitsPurchase == null || Boolean.TRUE.equals(exitsPurchase.getDeleted())) {
