@@ -24,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +49,11 @@ public class PurchaseService {
             List<Predicate> p = new ArrayList<>();
 
             p.add(criteriaBuilder.equal(root.get("deleted"), false));
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.HOUR_OF_DAY, -24);
+
+            p.add(criteriaBuilder.greaterThanOrEqualTo(root.get("publishAt"), calendar.getTime()));
 
             if (!ArrayUtils.isEmpty(types)) {
                 In<String> in = criteriaBuilder.in(root.get("type"));
