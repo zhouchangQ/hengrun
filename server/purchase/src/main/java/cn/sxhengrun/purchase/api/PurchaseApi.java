@@ -31,21 +31,25 @@ public class PurchaseApi extends ApiSupportWebController {
             @RequestParam(required = false, defaultValue = "DESC") OrderMode order,
             @RequestParam long offset,
             @RequestParam int limit) {
+        EulerCloudUserContext.requiredAuthorities("PURCHASER");
         return this.purchaseService.getPurchases(EulerCloudUserContext.getCurrentUserId(), types, order, offset, limit);
     }
 
     @PostMapping
     public long savePurchase(@RequestBody PurchaseVO purchase) {
+        EulerCloudUserContext.requiredAuthorities("PURCHASER");
         return this.purchaseService.addOrUpdatePurchase(EulerCloudUserContext.getCurrentUserId(), purchase);
     }
 
     @DeleteMapping
     public void trashPurchase(@RequestParam long id) {
+        EulerCloudUserContext.requiredAuthorities("PURCHASER");
         this.purchaseService.trashPurchase(EulerCloudUserContext.getCurrentUserId(), id);
     }
 
     @PostMapping("completePurchase")
     public void completePurchase(@RequestParam long id) {
+        EulerCloudUserContext.requiredAuthorities("PURCHASER");
         this.purchaseService.completePurchase(EulerCloudUserContext.getCurrentUserId(), id);
     }
 }

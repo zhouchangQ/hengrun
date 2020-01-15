@@ -33,11 +33,13 @@ public class HeadlineApi {
 
     @GetMapping("edit")
     public HeadlineVO getHeadlineForEdit() {
+        EulerCloudUserContext.requiredAuthorities("PURCHASER");
         return this.headlineService.getHeadLine(EulerCloudUserContext.getCurrentUserId());
     }
 
     @PostMapping("edit")
     public Long postHeadlineForEdit(@RequestBody HeadlineVO headlineVO) {
+        EulerCloudUserContext.requiredAuthorities("PURCHASER");
         return this.headlineService.updateHeadline(EulerCloudUserContext.getCurrentUserId(), headlineVO);
     }
 }
