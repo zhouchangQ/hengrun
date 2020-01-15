@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class OffsetBasedPageRequest implements Pageable, Serializable {
     private final int limit;
@@ -13,7 +14,7 @@ public class OffsetBasedPageRequest implements Pageable, Serializable {
     public OffsetBasedPageRequest(long offset, int limit) {
         this.offset = offset;
         this.limit = limit;
-        this.sort = null;
+        this.sort = Sort.unsorted();
     }
 
     public OffsetBasedPageRequest(long offset, int limit, Sort sort) {
