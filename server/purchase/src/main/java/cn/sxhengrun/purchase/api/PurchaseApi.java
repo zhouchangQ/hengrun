@@ -38,7 +38,7 @@ public class PurchaseApi extends ApiSupportWebController {
             @RequestParam(required = false, defaultValue = "DESC") OrderMode order,
             @RequestParam long offset,
             @RequestParam int limit) {
-        EulerCloudUserContext.requiredAuthorities("PURCHASER");
+        //EulerCloudUserContext.requiredAuthorities("PURCHASER");
         return this.purchaseService.getPurchases(EulerCloudUserContext.getCurrentUserId(), types, order, offset, limit);
     }
 
