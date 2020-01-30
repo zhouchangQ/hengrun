@@ -3,6 +3,7 @@ package cn.sxhengrun.purchase.service;
 import cn.sxhengrun.purchase.entity.Purchase;
 import cn.sxhengrun.purchase.entity.Quote;
 import cn.sxhengrun.purchase.entity.QuoteAlbum;
+import cn.sxhengrun.purchase.remote.HengRunUserProfileRemoteService;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
 import cn.sxhengrun.purchase.repository.PurchaseRepository;
 import cn.sxhengrun.purchase.repository.QuoteAlbumRepository;
@@ -32,6 +33,8 @@ public class QuoteService {
 
     @Autowired
     private ImageRemoteService imageRemoteService;
+    @Autowired
+    private HengRunUserProfileRemoteService hengRunUserProfileRemoteService;
 
     public List<QuoteVO> getQuotes(String userId, long purchaseId) {
         Assert.hasText(userId, "userId is required");
@@ -41,7 +44,7 @@ public class QuoteService {
                 .sorted(Comparator.comparing(Quote::getQuoteAt))
                 .map(quote -> {
                     List<QuoteAlbum> quoteAlbums = this.quoteAlbumRepository.findAllByQuoteId(quote.getId());
-                    return ConvertUtils.toVO(quote, quoteAlbums, this.imageRemoteService);
+                    return ConvertUtils.toVO(quote, quoteAlbums, this.imageRemoteService, this.hengRunUserProfileRemoteService);
                 })
                 .collect(Collectors.toList());
     }

@@ -2,6 +2,7 @@ package cn.sxhengrun.purchase.service;
 
 import cn.sxhengrun.purchase.entity.Sale;
 import cn.sxhengrun.purchase.entity.SaleAlbum;
+import cn.sxhengrun.purchase.remote.HengRunUserProfileRemoteService;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
 import cn.sxhengrun.purchase.repository.SaleAlbumRepository;
 import cn.sxhengrun.purchase.repository.SaleRepository;
@@ -39,6 +40,8 @@ public class SaleService {
 
     @Autowired
     private ImageRemoteService imageRemoteService;
+    @Autowired
+    private HengRunUserProfileRemoteService hengRunUserProfileRemoteService;
 
     public List<SaleVO> getSales(String userId, String[] types, String publishBy, OrderMode order, long offset, int limit) {
         Assert.hasText(userId, "userId is required");
@@ -76,7 +79,7 @@ public class SaleService {
                 .stream()
                 .map(sale -> {
                     List<SaleAlbum> saleAlbums = this.saleAlbumRepository.findAllBySaleId(sale.getId());
-                    return ConvertUtils.toVO(sale, saleAlbums, this.imageRemoteService);
+                    return ConvertUtils.toVO(sale, saleAlbums, this.imageRemoteService, this.hengRunUserProfileRemoteService);
                 })
                 .collect(Collectors.toList());
     }

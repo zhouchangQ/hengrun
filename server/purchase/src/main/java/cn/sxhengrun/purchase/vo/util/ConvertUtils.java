@@ -8,7 +8,9 @@ import cn.sxhengrun.purchase.entity.Quote;
 import cn.sxhengrun.purchase.entity.QuoteAlbum;
 import cn.sxhengrun.purchase.entity.Sale;
 import cn.sxhengrun.purchase.entity.SaleAlbum;
+import cn.sxhengrun.purchase.remote.HengRunUserProfileRemoteService;
 import cn.sxhengrun.purchase.remote.ImageRemoteService;
+import cn.sxhengrun.purchase.remote.vo.HengRunUserProfileVO;
 import cn.sxhengrun.purchase.remote.vo.ImageInfo;
 import cn.sxhengrun.purchase.vo.HeadlineVO;
 import cn.sxhengrun.purchase.vo.PhotoVO;
@@ -86,12 +88,18 @@ public class ConvertUtils {
         }
     }
 
-    public static SaleVO toVO(final Sale sale, final List<SaleAlbum> saleAlbums, final ImageRemoteService imageRemoteService) {
+    public static SaleVO toVO(final Sale sale, final List<SaleAlbum> saleAlbums, final ImageRemoteService imageRemoteService, final HengRunUserProfileRemoteService hengRunUserProfileRemoteService) {
         SaleVO saleVO = new SaleVO();
         saleVO.setId(String.valueOf(sale.getId()));
         saleVO.setTitle(sale.getTitle());
         saleVO.setTel(sale.getTel());
-        //TODO saleVO.setType(sale.getType());
+
+        HengRunUserProfileVO hengRunUserProfileVO = hengRunUserProfileRemoteService.findHengRunUserProfile(sale.getPublishBy());
+        if(hengRunUserProfileVO != null) {
+            saleVO.setCompanyName(hengRunUserProfileVO.getCompanyName());
+            saleVO.setType(hengRunUserProfileVO.getScope());
+        }
+
         saleVO.setDetails(sale.getDetails());
         saleVO.setPublishBy(sale.getPublishBy());
         saleVO.setPublishAt(sale.getPublishAt());
@@ -143,10 +151,17 @@ public class ConvertUtils {
     }
 
 
-    public static QuoteVO toVO(final Quote quote, final List<QuoteAlbum> quoteAlbums, final ImageRemoteService imageRemoteService) {
+    public static QuoteVO toVO(final Quote quote, final List<QuoteAlbum> quoteAlbums, final ImageRemoteService imageRemoteService, final HengRunUserProfileRemoteService hengRunUserProfileRemoteService) {
         QuoteVO quoteVO = new QuoteVO();
         quoteVO.setId(String.valueOf(quote.getId()));
         quoteVO.setTel(quote.getTel());
+
+        HengRunUserProfileVO hengRunUserProfileVO = hengRunUserProfileRemoteService.findHengRunUserProfile(quote.getQuoteBy());
+        if(hengRunUserProfileVO != null) {
+            quoteVO.setCompanyName(hengRunUserProfileVO.getCompanyName());
+            quoteVO.setType(hengRunUserProfileVO.getScope());
+        }
+
         quoteVO.setDetails(quote.getDetails());
         quoteVO.setQuoteBy(quote.getQuoteBy());
         quoteVO.setQuoteAt(quote.getQuoteAt());
