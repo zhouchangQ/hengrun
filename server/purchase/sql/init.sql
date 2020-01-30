@@ -116,8 +116,6 @@ create table sale
         comment '标题',
     tel        varchar(20)     not null
         comment '联系方式',
-    type       varchar(10)     not null
-        comment '产品类型',
     details    varchar(1000)   not null
         comment '详情',
     publish_at datetime(3)     not null

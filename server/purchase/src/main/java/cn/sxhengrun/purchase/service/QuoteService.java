@@ -70,7 +70,7 @@ public class QuoteService {
         quote.setDeleted(false);
 
 
-        List<Quote> exitsQuotes = this.quoteRepository.findAllByQuoteBy(userId);
+        List<Quote> exitsQuotes = this.quoteRepository.findAllByQuoteByAndPurchaseId(userId, purchaseId);
         if (!CollectionUtils.isEmpty(exitsQuotes)) {
             for (Quote exitsQuote : exitsQuotes) {
                 this.quoteAlbumRepository.deleteByQuoteId(exitsQuote.getId());

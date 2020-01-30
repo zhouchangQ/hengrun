@@ -9,6 +9,7 @@ public class SaleVO implements Serializable {
     private String title;
     private String tel;
     private String type;
+    private String companyName;
     private String details;
     private Date publishAt;
     private String publishBy;
@@ -77,5 +78,13 @@ public class SaleVO implements Serializable {
 
     public void setPhotos(List<PhotoVO> photos) {
         this.photos = photos;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

@@ -91,7 +91,7 @@ public class ConvertUtils {
         saleVO.setId(String.valueOf(sale.getId()));
         saleVO.setTitle(sale.getTitle());
         saleVO.setTel(sale.getTel());
-        saleVO.setType(sale.getType());
+        //TODO saleVO.setType(sale.getType());
         saleVO.setDetails(sale.getDetails());
         saleVO.setPublishBy(sale.getPublishBy());
         saleVO.setPublishAt(sale.getPublishAt());
@@ -129,7 +129,6 @@ public class ConvertUtils {
         sale.setId(saleVO.getId() == null ? null : Long.parseLong(saleVO.getId()));
         sale.setTitle(saleVO.getTitle());
         sale.setTel(saleVO.getTel());
-        sale.setType(saleVO.getType());
         sale.setDetails(saleVO.getDetails());
 
         if (!CollectionUtils.isEmpty(saleVO.getPhotos())) {

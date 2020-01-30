@@ -14,8 +14,6 @@ public class Sale extends IDEntity<Sale> {
     private String title;
     @Column(name = "tel")
     private String tel;
-    @Column(name = "type")
-    private String type;
     @Column(name = "details")
     private String details;
     @Column(name = "publish_at")
@@ -43,14 +41,6 @@ public class Sale extends IDEntity<Sale> {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getDetails() {

@@ -10,6 +10,6 @@ import java.util.List;
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
     long countQuotesByPurchaseId(long purchaseId);
-    List<Quote> findAllByQuoteBy(String quoteBy);
+    List<Quote> findAllByQuoteByAndPurchaseId(String quoteBy, long purchaseId);
     List<Quote> findAllByPurchaseId(long purchaseId);
 }

@@ -8,6 +8,8 @@ public class QuoteVO implements Serializable {
     private String id;
     private String tel;
     private String details;
+    private String type;
+    private String companyName;
     private Date quoteAt;
     private String quoteBy;
 
@@ -59,5 +61,21 @@ public class QuoteVO implements Serializable {
 
     public void setPhotos(List<PhotoVO> photos) {
         this.photos = photos;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }
